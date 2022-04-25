@@ -1,5 +1,5 @@
 from tkinter.font import names
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, jsonify
 from flask_pymongo import PyMongo
 import pandas as pd
 import json
@@ -17,10 +17,11 @@ def home():
     # Return template and data
     return render_template("index.html")
 
+
 # Set route
 @app.route('/mdata')
 def index():
-    # Store the entire team collection in a list
+    # Store the entirecollection in a list
     share_list = list(mongo.db.companys.find())
     print(share_list) # prints in console
 
@@ -30,6 +31,14 @@ def index():
 @app.route('/cba.html')
 def cba():
     return render_template('cba.html')
+
+@app.route('/cba_data')
+def cba_data():   
+#  Store the entire collection in a list
+    c_list = list(mongo.db.cba.find()) #returns list of dicts [{dict}{dict}]
+    #print(c_list) # prints entire list of dicts in console but is large
+    #return jsonify(cba_data=c_list)
+    return jsonify(data=json.dumps(c_list, default=str))
 
 @app.route('/nab.html')
 def nab():
@@ -47,22 +56,16 @@ def bhp():
 def csl():
     return render_template('csl.html')
 
-@app.route('/assets/data/cba.csv')
-def scatter():
-    data = './static/data/CBA.csv'
-    df = pd.read_csv(data)
-    chart_data = df.to_dict(orient='records')
-    chart_data = json.dumps(chart_data, indent=2)
-    data = {'chart_data': chart_data}
+# @app.route('/cba.csv')
+# def scatter():
+#     data = './static/data/cba.csv'
+#     df = pd.read_csv(data)
+#     chart_data = df.to_dict(orient='records')
+#     chart_data = json.dumps(chart_data, indent=2)
+#     data = {'chart_data': chart_data}
   
-    return render_template('cba.html',data=data)
+#     return render_template('cba.html',data=data)
 
-# @app.route('/name')
-# def user():
-#    who = request.args.get('#sel1')
-#    short_list = list(mongo.db.companys['name'].find({ "name": who }))
-#    print(short_list) # prints in console
-#    return render_template("index.html", names=short_list)
 
 
 # # Route that button will trigger the scrape function
