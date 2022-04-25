@@ -1,5 +1,5 @@
-/// data in a list of many dicts/rows
-console.log(data)
+/// declare data from in a list of many dicts/rows
+var data
 
 function makeResponsive() {
   var svgArea = d3.select("body").select("svg");
@@ -26,9 +26,12 @@ function makeResponsive() {
   //Read the data
   //d3.csv("../data/cba.csv").then( function(data) {
   d3.json("/cba_data")
-    .then(data => {
-      Object.entries(data).forEach(([key, value]) => {
-        console.log(key, value);
+    .then(importedData => {
+      data=importedData.cba_data
+      console.log(data)
+      // Object.entries(data).forEach(([key, value]) => {
+        // console.log(key, value);
+ 
       });
 
       var chosenXAxis = "Volume"; //default

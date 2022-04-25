@@ -38,7 +38,7 @@ def cba_data():
     c_list = list(mongo.db.cba.find()) #returns list of dicts [{dict}{dict}]
     #print(c_list) # prints entire list of dicts in console but is large
     #return jsonify(cba_data=c_list)
-    return jsonify(data=json.dumps(c_list, default=str))
+    return jsonify(cba_data=json.dumps(c_list, default=str))
 
 @app.route('/nab.html')
 def nab():
