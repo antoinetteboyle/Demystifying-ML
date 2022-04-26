@@ -1,4 +1,4 @@
-from tkinter.font import names
+from msilib.schema import Directory
 from flask import Flask, render_template, redirect, url_for, request, jsonify
 from flask_pymongo import PyMongo
 import pandas as pd
@@ -7,6 +7,12 @@ import json
 
 # Create an instance of Flask
 app = Flask(__name__)
+app.config['JSON_SORT_KEYS'] = False
+
+#Load from local Directory
+nab = './static/data/nab.csv'
+df = pd.read_csv(nab) 
+nab_data = df.to_dict(orient='records')
 
 # Use PyMongo to establish Mongo connection to the database which is named last
 mongo = PyMongo(app, uri="mongodb://localhost:27017/sharesDB")
@@ -16,7 +22,6 @@ mongo = PyMongo(app, uri="mongodb://localhost:27017/sharesDB")
 def home():
     # Return template and data
     return render_template("index.html")
-
 
 # Set route
 @app.route('/mdata')
@@ -35,9 +40,8 @@ def cba():
 @app.route('/cba_data')
 def cba_data():   
 #  Store the entire collection in a list
-    c_list = list(mongo.db.cba.find()) #returns list of dicts [{dict}{dict}]
+    c_list = list(mongo.db.cba_scatter.find()) #returns list of dicts [{dict}{dict}]
     #print(c_list) # prints entire list of dicts in console but is large
-    #return jsonify(cba_data=c_list)
     return jsonify(cba_data=json.dumps(c_list, default=str))
 
 @app.route('/nab.html')

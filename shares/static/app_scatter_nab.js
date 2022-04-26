@@ -1,5 +1,6 @@
 /// declare data from in a list of many dicts/rows
-var data
+var data = nab_data
+console.log(data)
 
 function makeResponsive() {
   var svgArea = d3.select("body").select("svg");
@@ -24,14 +25,10 @@ function makeResponsive() {
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   //Read the data
-  //d3.csv("../data/cba.csv").then( function(data) {
-  d3.json("/cba_data")
-    .then(importedData => {
-      data=importedData.cba_data
-      console.log(data)
-      // Object.entries(data).forEach(([key, value]) => {
-        // console.log(key, value);
-      //});
+  // d3.csv("./nab.csv").then( function(data) {
+      Object.entries(data).forEach(([key, value]) => {
+        console.log(key, value);
+      });
 
       var chosenXAxis = "Volume"; //default
       var chosenYAxis = "Close"; //default
@@ -143,7 +140,7 @@ function makeResponsive() {
         .attr("cx", (d) => x(d[chosenXAxis]))
         .attr("cy", (d) => y(d[chosenYAxis]))
         .attr("r", (d) => z(d.Close))
-        // .style("fill", (d) => myColor(d.Date.slice(-4)))
+        .style("fill", (d) => myColor(d.Date.slice(-4)))
         .on("mouseover", showTooltip)
         .on("mousemove", moveTooltip)
         .on("mouseleave", hideTooltip);
@@ -291,7 +288,7 @@ function makeResponsive() {
           .attr("cx", (d) => x(d[chosenXAxis]))
           .attr("cy", (d) => y(d[chosenYAxis]))
           .attr("r", (d) => z(d.Close))
-          // .style("fill", (d) => myColor(d.Date.slice(-4)))
+          .style("fill", (d) => myColor(d.Date.slice(-4)))
           // -3- Trigger the functions
           .on("mouseover", showTooltip)
           .on("mousemove", moveTooltip)
@@ -384,7 +381,7 @@ function makeResponsive() {
           .attr("cx", (d) => x(d[chosenXAxis]))
           .attr("cy", (d) => y(d[chosenYAxis]))
           .attr("r", (d) => z(d.Close))
-          // .style("fill", (d) => myColor(d.Date.slice(-4)))
+          .style("fill", (d) => myColor(d.Date.slice(-4)))
           // -3- Trigger tooltip functions
           .on("mouseover", showTooltip)
           .on("mousemove", moveTooltip)
@@ -409,7 +406,7 @@ function makeResponsive() {
         if (chosenXAxis !== "FED") {
           fedLabel.classed("active", false).classed("inactive", true);
         }
-      }); // on click
+      // }); // on click
 
       // ****** Extra labels end *******
 
