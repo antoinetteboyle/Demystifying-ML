@@ -1,48 +1,73 @@
-from msilib.schema import Directory
 from flask import Flask, render_template, redirect, url_for, request, jsonify
 from flask_pymongo import PyMongo
+from keras.models import load_model
+from sklearn.preprocessing import MinMaxScaler
 import pandas as pd
-import json
-# import scrape_shares
+import numpy as np
 
 # Create an instance of Flask
 app = Flask(__name__)
-app.config['JSON_SORT_KEYS'] = False
 
-#Load from local Directory
-nab = './static/data/nab.csv'
-df = pd.read_csv(nab) 
-nab_data = df.to_dict(orient='records')
+# Load model from local Directory
+scaler = MinMaxScaler(feature_range=(0,1))
+model_in = load_model('./static/cba_model.sav')
+# Read in the CSV file
+df_cba_sixty = pd.read_csv("./static/data/cba_sixty.csv")
+close_sixty_val = df_cba_sixty[-60:].values
+last_sixty = close_sixty_val.reshape(-1,1)
+
 
 # Use PyMongo to establish Mongo connection to the database which is named last
 mongo = PyMongo(app, uri="mongodb://localhost:27017/sharesDB")
 
-# Route to render index.html template using data from Mongo
+@app.route("/cba.html", methods=('GET','POST'))
+def predict_cba():
+    request_type = request.method
+    if request_type == 'GET':
+        return render_template('cba.html', href='../static/data/images/cba_graph.png')
+    else:
+        input = request.form['text']
+        if input == "":
+         input = 1
+        else:
+         input = int(input)
+        
+        price_list=[]
+        def predict_cba(last_sixty,model_in,input):
+            for i in range(0, input):
+
+                #Takes df and converts to model's predict shape
+                last_sixty_scaled = scaler.fit_transform(last_sixty)
+                new_X_tell = []
+                new_X_tell.append(last_sixty_scaled)
+                new_X_tell = np.array(new_X_tell)
+                new_X_tell = np.reshape(new_X_tell, (new_X_tell.shape[0], new_X_tell.shape[1],1))
+                
+                model_in_pd_scale = model_in.predict(new_X_tell)
+                model_in_price = scaler.inverse_transform(model_in_pd_scale) # New price predicted
+
+                last_sixty_less_one = np.delete(last_sixty, 0, 0)
+                last_sixty = np.append(last_sixty_less_one, model_in_price,axis = 0) # Update last 60
+                print(i)
+                print("Day finished! Price: ")
+                price_float = float(model_in_price)
+                price = round(price_float, 2)
+                price_list.append(price)
+
+            else:
+                print("Could not predict further!")
+                print(input)
+
+        print(price_list)
+        path = '../static/data/images/cba_graph.png'
+        predict_cba(last_sixty,model_in,input)
+        return render_template('cba.html', href=path, price_list=price_list)
+
+# Route to render index.html template
 @app.route("/")
 def home():
     # Return template and data
     return render_template("index.html")
-
-# Set route
-@app.route('/mdata')
-def index():
-    # Store the entirecollection in a list
-    share_list = list(mongo.db.companys.find())
-    print(share_list) # prints in console
-
-    # Return the template with the share_list passed in
-    return render_template('index.html', shares=share_list)
-
-@app.route('/cba.html')
-def cba():
-    return render_template('cba.html')
-
-@app.route('/cba_data')
-def cba_data():   
-#  Store the entire collection in a list
-    c_list = list(mongo.db.cba_scatter.find()) #returns list of dicts [{dict}{dict}]
-    #print(c_list) # prints entire list of dicts in console but is large
-    return jsonify(cba_data=json.dumps(c_list, default=str))
 
 @app.route('/nab.html')
 def nab():
@@ -60,18 +85,6 @@ def bhp():
 def csl():
     return render_template('csl.html')
 
-# @app.route('/cba.csv')
-# def scatter():
-#     data = './static/data/cba.csv'
-#     df = pd.read_csv(data)
-#     chart_data = df.to_dict(orient='records')
-#     chart_data = json.dumps(chart_data, indent=2)
-#     data = {'chart_data': chart_data}
-  
-#     return render_template('cba.html',data=data)
-
-
-
 # # Route that button will trigger the scrape function
 # @app.route("/scrape")
 
@@ -85,8 +98,8 @@ def csl():
     # # Update the Mongo database using update and upsert=True
     # mongo.db.collection.update_one({}, {"$set": var_data}, upsert=True)
    
-    # #Redirect back to home page
-    # return redirect("/", code=302)
+    #Redirect back to home page
+    return redirect("/", code=302)
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -43,7 +43,7 @@
         <ul class="nav nav-pills navbar-right">
 
           <li class="nav-item dropdown">
-            <!-- <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
+            
             <a class="btn nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
               Financials
             </a> 
@@ -88,56 +88,26 @@
         Headquarters: Sydney
         CEO: Matt Comyn (9 Apr 2018–)
         Number of employees: 43,585 (2020)
-        Subsidiaries: CommSec, Bankwest, Colonial First State, Aussie, MORE
+        Subsidiaries: CommSec, Bankwest, Colonial First State, Aussie,
         Founders: Andrew Fisher, King O'Malley
       </p>
 
-      <!-- <ul style="list-style: none;">
-        {% for row in cba_data %}
-          <li>{{ row.Close }}: {{ row.Open }}</li>
-        {% endfor %}
-      </ul> -->
+      <center>
+        <img src="{{href}}" alt="href for pict" class="img-fluid" width="780" height="300";>
+        <p>                                 </p>
+        <form method= 'POST'>
+        <h4><strong>LSTM Machine Learning Prediction:</strong></h4>
+        <p> Select number of Trading Days into the future from today:</p>
+        <label> <b></strong>(Numbers between 1 and 300)</b></label>
+        <input type="number" name="text" min="1" max="300" >
+        <input type="submit">
+        </form>
+        <p> Scroll down and find your Share Price results below</p>
+        <p> <h4>{{ price_list }}</h4> </p>
+      </center>
+<div>
 
-    <p> 
-      <h4>Interactive scatter plot</h4> 
-      Select your prefered x and y axis. The size of the bubbles 
-      represent the share price. Colour separates the years from 
-      2000 to 2022.
-        <div class="row">
-          <div class="col-xs-12  col-md-12">
-            <div id="scatter">
-              <!-- We append chart here. -->
-            </div>
-          </div>
-        </div>
-    </p>
-
-      
-    <p>
-      <h2><strong>Financial Statement Highlights</strong></h2>
-        <div class="col-md-12">
-          <div id="table-area" class="">
-            <table id="ufo-table" class="table table-striped">
-              <thead>
-                <tr>
-                  <th class="table-head">Financials</th>
-                  <th class="table-head">CBA</th>
-                  <th class="table-head">NAB</th>
-                  <th class="table-head">Westpac</th>
-                  <th class="table-head">Macquarie</th>
-                  <th class="table-head">ANZ</th>
-                  <th class="table-head">BHP</th>
-                  <th class="table-head">FMG</th>
-                  <th class="table-head">Wesfarmers</th>
-                  <th class="table-head">Atlassian</th>
-                  <th class="table-head">CSL</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
-        </p>
+</div>
 
       </div>
       <div class="col-sm-1">
@@ -163,12 +133,6 @@
   </div>
   
 </main>
-<!-- Bring in d3scatter stylesheet -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-<script src="https://d3js.org/d3.v6.min.js"></script>
-<!-- <script type="text/javascript" src="static/js/app_scatter.js"></script> -->
-<script src="{{url_for('static', filename='app_scatter.js')}}"></script>
 </body>
 
 </html>
