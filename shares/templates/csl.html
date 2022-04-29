@@ -3,16 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
- <!-- ???? <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
 
-  <title>Machine Learning Challenge- CBA</title>
+  <title>Machine Learning Challenge- CSL</title>
   
    <!-- Bring in bootstrap stylesheet -->
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
    <!-- Bring in our css--->
    <link rel="stylesheet" href="../static/css/web_styles.css">
    <link rel="stylesheet" href="../static/css/d3style.css">
-   <!-- <link rel="stylesheet" href="./static/css/style_d3_2.css"> -->
    
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -44,7 +42,6 @@
         <ul class="nav nav-pills navbar-right">
 
           <li class="nav-item dropdown">
-            <!-- <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
             <a class="btn nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
               Financials
             </a> 
@@ -89,46 +86,23 @@
         Headquarters: Melbourne
       </p>
 
-    <p> 
-      <h4>Interactive scatter plot</h4> 
-      Select your prefered x and y axis. The size of the bubbles 
-      represent the share price. Colour separates the years from 
-      2000 to 2022.
-        <div class="row">
-          <div class="col-xs-12  col-md-12">
-            <!-- <div id="scatter"> -->
-              <!-- We append chart here. -->
-            </div>
-          </div>
-        </div>
-    </p>
+    
+      <center>
+        <img src="{{href}}" alt="href for pict" class="img-fluid" width="780" height="300";>
+        <p>                                 </p>
+        <form method= 'POST'>
+        <h4><strong>LSTM Machine Learning Prediction:</strong></h4>
+        <p> Select number of Trading Days into the future from today:</p>
+        <label> <b></strong>(Numbers between 1 and 300)</b></label>
+        <input type="number" name="text" min="1" max="300" >
+        <input type="submit">
+        </form>
+        <p> Scroll down and find your Share Price results below</p>
+        <p> <h4>{{ price_list }}</h4> </p>
+      </center>
 
-      
-    <p>
-      <h2><strong>Financial Statement Highlights</strong></h2>
-        <div class="col-md-12">
-          <div id="table-area" class="">
-            <table id="ufo-table" class="table table-striped">
-              <thead>
-                <tr>
-                  <th class="table-head">Financials</th>
-                  <th class="table-head">CBA</th>
-                  <th class="table-head">NAB</th>
-                  <th class="table-head">Wespac</th>
-                  <th class="table-head">Macquarie</th>
-                  <th class="table-head">ANZ</th>
-                  <th class="table-head">BHP</th>
-                  <th class="table-head">FMG</th>
-                  <th class="table-head">Wesfarmers</th>
-                  <th class="table-head">Atlassian</th>
-                  <th class="table-head">CSL</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
-        </p>
+<div>
+</div>
 
       </div>
       <div class="col-sm-1">
