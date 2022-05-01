@@ -7,7 +7,7 @@ Project title: Top 5 ASX Market Caps
 Due date: Tues 3 May 2022
 
 Team members:
-Stella, Antoinette  
+Stella , Antoinette  
 
 Datasets:
 [Yahoo Finance Share Price Information]('./shares/static/data")

@@ -75,7 +75,7 @@
     
       <div class="col-sm-8">
 
-          <h2><a href="#"> <img src="../static/data/images/cslicon.png" class="img-fluid" alt="CSL Limited" width="50" height="50" style="padding: 0 1px 1px 0; float:left;"></a> <b>    CSL Limited</b></h2>
+          <h2><a href="#"> <img src="../static/data/images/cslicon.png" class="img-fluid" alt="CSL Limited" width="30" height="30" style="padding: 10 10px 10px 10; float:left;"></a> <b>     CSL Limited</b></h2>
           <hr> </hr>
           
       <p> 
@@ -86,6 +86,9 @@
         Headquarters: Melbourne
       </p>
 
+      <p> 
+        Graph below depicts Share price (y-axis) versus Trading Days (x-axis) from 01/01/2000 to present date
+      </p>
     
       <center>
         <img src="{{href}}" alt="href for pict" class="img-fluid" width="780" height="300";>
@@ -98,9 +101,33 @@
         <input type="submit">
         </form>
         <p> Scroll down and find your Share Price results below</p>
-        <p> <h4>{{ price_list }}</h4> </p>
       </center>
-
+      
+      <p>
+        {% block content %}
+          <table id="data" class="table table-striped">
+            <thead>
+              <tr>
+                <th>Count</th>
+                <th>Date</th>
+                <th>Day of Week</th>
+                <th>Price AUD$</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for user in dict %}
+                <tr>
+                  <td>{{ user.Count }}</td>
+                  <td>{{ user.Date }}</td>
+                  <td>{{ user.DOW }}</td>
+                  <td>{{ user.Price }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% endblock %}
+        </p>
+      
 <div>
 </div>
 

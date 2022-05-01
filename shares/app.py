@@ -22,7 +22,7 @@ df_cba_sixty = pd.read_csv("./static/data/cba_sixty.csv")
 df_csl_sixty = pd.read_csv("./static/data/csl_sixty.csv")
 df_nab_sixty = pd.read_csv("./static/data/nab_sixty.csv")
 df_wbc_sixty = pd.read_csv("./static/data/wbc_sixty.csv")
-
+dates_df = pd.read_csv("./static/data/dates.csv")
 close_sixty_val_bhp = df_bhp_sixty[-60:].values
 last_sixty_bhp = close_sixty_val_bhp.reshape(-1,1)
 close_sixty_val_cba = df_cba_sixty[-60:].values
@@ -48,16 +48,17 @@ def home():
 def predict_cba():
     request_type = request.method
     if request_type == 'GET':
-        return render_template('cba.html', href='../static/data/images/cba_graph.png')
+        m_dict=[{}]
+        return render_template('cba.html', href='../static/data/images/cba_graph.png',dict=m_dict)
     else:
         input = request.form['text']
         if input == "":
-         input = 1
+         input = 180
         else:
          input = int(input)
         
         price_list=[]
-        def predict_cba(last_sixty_cba,model_in,input):
+        def predict_cba(dates_df,last_sixty_cba,model_in,input):
             for i in range(0, input):
 
                 #Takes df and converts to model's predict shape
@@ -83,26 +84,31 @@ def predict_cba():
                 print(input)
 
         print(price_list)
-        path = '../static/data/images/cba_graph.png'
-        predict_cba(last_sixty_cba,model_in,input)
-        return render_template('cba.html', href=path, price_list=price_list)
+        path = '../static/data/images/cba_predict_graph.png'
+        predict_cba(dates_df,last_sixty_cba,model_in,input)
+        
+        dates_df_iloc = dates_df.iloc[0:input]
+        dates_df_iloc['Price'] = price_list
+        my_dict = dates_df_iloc.to_dict(orient='records')
+        print(my_dict)
+        return render_template('cba.html', href=path, dict=my_dict)
 
 
 @app.route('/bhp.html', methods=('GET','POST'))
 def predict_bhp():
-
     request_type = request.method
     if request_type == 'GET':
-        return render_template('bhp.html', href='../static/data/images/bhp_graph.png')
+        m_dict=[{}]
+        return render_template('bhp.html', href='../static/data/images/bhp_graph.png',dict=m_dict)
     else:
         input = request.form['text']
         if input == "":
-         input = 1
+         input = 180
         else:
          input = int(input)
         
         price_list=[]
-        def predict_bhp(last_sixty_bhp,model_in,input):
+        def predict_bhp(dates_df,last_sixty_bhp,model_in,input):
             for i in range(0, input):
 
                 #Takes df and converts to model's predict shape
@@ -128,9 +134,14 @@ def predict_bhp():
                 print(input)
 
         print(price_list)
-        path = '../static/data/images/bhp_graph.png'
-        predict_bhp(last_sixty_bhp,model_in,input)
-        return render_template('bhp.html', href=path, price_list=price_list)
+        path = '../static/data/images/bhp_predict_graph.png'
+        predict_bhp(dates_df,last_sixty_bhp,model_in,input)
+
+        dates_df_iloc = dates_df.iloc[0:input]
+        dates_df_iloc['Price'] = price_list
+        my_dict = dates_df_iloc.to_dict(orient='records')
+        print(my_dict)
+        return render_template('bhp.html', href=path, dict=my_dict)
 
 
 @app.route('/csl.html', methods=('GET','POST'))
@@ -138,16 +149,17 @@ def predict_csl():
 
     request_type = request.method
     if request_type == 'GET':
-        return render_template('csl.html', href='../static/data/images/csl_graph.png')
+        m_dict=[{}]
+        return render_template('csl.html', href='../static/data/images/csl_graph.png',dict=m_dict)
     else:
         input = request.form['text']
         if input == "":
-         input = 1
+         input = 180
         else:
          input = int(input)
         
         price_list=[]
-        def predict_csl(last_sixty_csl,model_in,input):
+        def predict_csl(dates_df,last_sixty_csl,model_in,input):
             for i in range(0, input):
 
                 #Takes df and converts to model's predict shape
@@ -173,9 +185,14 @@ def predict_csl():
                 print(input)
 
         print(price_list)
-        path = '../static/data/images/csl_graph.png'
-        predict_csl(last_sixty_csl,model_in,input)
-        return render_template('csl.html', href=path, price_list=price_list)
+        path = '../static/data/images/csl_predict_graph.png'
+        predict_csl(dates_df,last_sixty_csl,model_in,input)
+
+        dates_df_iloc = dates_df.iloc[0:input]
+        dates_df_iloc['Price'] = price_list
+        my_dict = dates_df_iloc.to_dict(orient='records')
+        print(my_dict)     
+        return render_template('csl.html', href=path, dict=my_dict)
 
 
 @app.route('/nab.html', methods=('GET','POST'))
@@ -183,16 +200,17 @@ def predict_nab():
 
     request_type = request.method
     if request_type == 'GET':
-        return render_template('nab.html', href='../static/data/images/nab_graph.png')
+        m_dict=[{}]
+        return render_template('nab.html', href='../static/data/images/nab_graph.png',dict=m_dict)
     else:
         input = request.form['text']
         if input == "":
-         input = 1
+         input = 180
         else:
          input = int(input)
         
         price_list=[]
-        def predict_nab(last_sixty_nab,model_in,input):
+        def predict_nab(dates_df,last_sixty_nab,model_in,input):
             for i in range(0, input):
 
                 #Takes df and converts to model's predict shape
@@ -218,25 +236,31 @@ def predict_nab():
                 print(input)
 
         print(price_list)
-        path = '../static/data/images/nab_graph.png'
-        predict_nab(last_sixty_nab,model_in,input)
-        return render_template('nab.html', href=path, price_list=price_list)
+        path = '../static/data/images/nab_predict_graph.png'
+        predict_nab(dates_df,last_sixty_nab,model_in,input)
+
+        dates_df_iloc = dates_df.iloc[0:input]
+        dates_df_iloc['Price'] = price_list
+        my_dict = dates_df_iloc.to_dict(orient='records')
+        print(my_dict)
+        return render_template('nab.html', href=path, dict=my_dict)
     
 
 @app.route('/wbc.html', methods=('GET','POST'))
 def predict_wbc():
     request_type = request.method
     if request_type == 'GET':
-        return render_template('wbc.html', href='../static/data/images/wbc_graph.png')
+        m_dict=[{}]
+        return render_template('wbc.html', href='../static/data/images/wbc_graph.png',dict=m_dict)
     else:
         input = request.form['text']
         if input == "":
-         input = 1
+         input = 180
         else:
          input = int(input)
         
         price_list=[]
-        def predict_wbc(last_sixty_wbc,model_in,input):
+        def predict_wbc(dates_df,last_sixty_wbc,model_in,input):
             for i in range(0, input):
 
                 #Takes df and converts to model's predict shape
@@ -262,9 +286,14 @@ def predict_wbc():
                 print(input)
 
         print(price_list)
-        path = '../static/data/images/wbc_graph.png'
-        predict_wbc(last_sixty_wbc,model_in,input)
-        return render_template('wbc.html', href=path, price_list=price_list)
+        path = '../static/data/images/wbc_predict_graph.png'
+        predict_wbc(dates_df,last_sixty_wbc,model_in,input)
+
+        dates_df_iloc = dates_df.iloc[0:input]
+        dates_df_iloc['Price'] = price_list
+        my_dict = dates_df_iloc.to_dict(orient='records')
+        print(my_dict)
+        return render_template('wbc.html', href=path, dict=my_dict)
    
 
 # # Route that button will trigger the scrape function

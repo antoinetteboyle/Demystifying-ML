@@ -75,7 +75,7 @@
     
       <div class="col-sm-8">
 
-          <h2><a href="#"> <img src="../static/data/images/nabicon.png" class="img-fluid" alt="National Australia Bank" width="50" height="50" style="padding: 0 1px 1px 0; float:left;"></a> <b>National Australia Bank </b></h2>
+          <h2><a href="#"> <img src="../static/data/images/nabicon.png" class="img-fluid" alt="National Australia Bank" width="40" height="40" style="padding: 10 10px 10px 10; float:left;"></a> <b>National Australia Bank </b></h2>
           <hr> </hr>
           
       <p> 
@@ -84,6 +84,10 @@
         NAB was ranked 21st-largest bank in the world measured by market capitalisation
         and 52nd-largest bank in the world as measured by total assets in 2019.
         Headquarters: Melbourne
+      </p>
+
+      <p> 
+        Graph below depicts Share price (y-axis) versus Trading Days (x-axis) from 01/01/2000 to present date
       </p>
 
       <center>
@@ -97,9 +101,35 @@
         <input type="submit">
         </form>
         <p> Scroll down and find your Share Price results below</p>
-        <p> <h4>{{ price_list }}</h4> </p>
+
       </center>
 
+      <p>
+        {% block content %}
+          <table id="data" class="table table-striped">
+            <thead>
+              <tr>
+                <th>Count</th>
+                <th>Date</th>
+                <th>Day of Week</th>
+                <th>Price AUD$</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for user in dict %}
+                <tr>
+                  <td>{{ user.Count }}</td>
+                  <td>{{ user.Date }}</td>
+                  <td>{{ user.DOW }}</td>
+                  <td>{{ user.Price }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% endblock %}
+        </p>
+     
+        
       <div>
       </div>
 
