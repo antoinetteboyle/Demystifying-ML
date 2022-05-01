@@ -23,6 +23,7 @@ df_csl_sixty = pd.read_csv("./static/data/csl_sixty.csv")
 df_nab_sixty = pd.read_csv("./static/data/nab_sixty.csv")
 df_wbc_sixty = pd.read_csv("./static/data/wbc_sixty.csv")
 dates_df = pd.read_csv("./static/data/dates.csv")
+dates_df['Count'] = dates_df['Count'].fillna(0).astype(int)
 close_sixty_val_bhp = df_bhp_sixty[-60:].values
 last_sixty_bhp = close_sixty_val_bhp.reshape(-1,1)
 close_sixty_val_cba = df_cba_sixty[-60:].values
