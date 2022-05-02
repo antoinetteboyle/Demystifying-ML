@@ -1,14 +1,12 @@
 
 .bubbles {
-  stroke-width: 2px;
+  stroke-width: 0.5px;
   stroke: white;
   opacity: .8
 }
 .bubbles:hover {
   stroke: black;
 }
-
-
 
 .aText {
   font-family: sans-serif;
@@ -103,7 +101,7 @@
 .tooltip {
   position: absolute;
   width: 135px;
-  height: 80px;
+  height: 60px;
   padding: 2px;
   padding-top: 8px;
   font: 12px sans-serif;
