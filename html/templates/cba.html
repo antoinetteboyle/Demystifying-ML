@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Machine Learning Challenge- CBA</title>
+  
+   <!-- Bring in bootstrap stylesheet -->
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+   <!-- Bring in our css--->
+   <link rel="stylesheet" href="../static/css/web_styles.css">
+   <link rel="stylesheet" href="../static/css/d3style.css">
+   
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  
+  <!-- CSS only -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+   <!-- JavaScript Bundle with Popper for dropdown list-->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+  
+  </head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">  
+
+    <a class="navbar-brand" style="color: #fefeff" href="/">Home</a>
+    
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+  
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav ml-auto">
+    <li class="nav-item active">   
+    
+        <ul class="nav nav-pills navbar-right">
+
+          <li class="nav-item dropdown">
+            
+            <a class="btn nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+              Financials
+            </a> 
+          
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="./cba.html">CBA</a>
+              <a class="dropdown-item" href="./nab.html">NAB</a>
+              <a class="dropdown-item" href="./wbc.html">Westpac</a>
+            </div>
+          </li>
+        </ul>
+
+           <li class="nav-item">
+            <a class="nav-link" href="./bhp.html">Mining </a>
+           </li>
+
+           <li class="nav-item">
+            <a class="nav-link" href="./csl.html">Healthcare </a>
+           </li>
+
+    </li>
+    </ul>
+    </div>
+
+  </nav>
+
+  <main>
+
+  <div class="container-fluid">   
+    <div class="row justify-content-between">
+    
+      <div class="col-sm-8">
+
+          <h2><a href="#"> <img src="../static/data/images/cbaicon.png" class="img-fluid" alt="Commonwealth Bank" width="50" height="50" style="padding: 0 1px 1px 0; float:left;"></a> <b>  Commonwealth Bank </b></h2>
+          <hr> </hr>
+          
+      <p> 
+        The Commonwealth Bank of Australia, or CommBank, 
+        is an Australian multinational bank with businesses 
+        across New Zealand, Asia, the United States and the 
+        United Kingdom.
+        Headquarters: Sydney
+        CEO: Matt Comyn (9 Apr 2018–)
+        Number of employees: 43,585 (2020)
+        Subsidiaries: CommSec, Bankwest, Colonial First State, Aussie,
+        Founders: Andrew Fisher, King O'Malley
+      </p>
+
+      <center>
+        <img src="{{href}}" alt="href for pict" class="img-fluid" width="780" height="300";>
+        <p>                                 </p>
+        <form method= 'POST'>
+        <h4><strong>LSTM Machine Learning Prediction:</strong></h4>
+        <p> Select number of Trading Days into the future from today:</p>
+        <label> <b></strong>(Numbers between 1 and 300)</b></label>
+        <input type="number" name="text" min="1" max="300" >
+        <input type="submit">
+        </form>
+        <p> Scroll down and find your Share Price results below</p>
+        <p> <h4>{{ price_list }}</h4> </p>
+      </center>
+<div>
+
+</div>
+
+      </div>
+      <div class="col-sm-1">
+      </div>
+  
+      <div class="col-sm-3">
+        
+          <h2><strong>Companies</strong></h2>
+          <hr> </hr>
+          <a href="./bhp.html"> <img src="../static/data/images/bhp.png" class="img-fluid" alt="BHP Group" width="300" height="300" style="padding: 0 1px 1px 0; float:left;"></a>
+          <a href="./cba.html"> <img src="../static/data/images/cba.png" class="img-fluid" alt="Commonwealth Bank" width="300" height="300" style="padding: 0 1px 1px 0; float:left;"></a>
+          <a href="./csl.html"> <img src="../static/data/images/csl.png" class="img-fluid" alt="CSL" width="300" height="300" style="padding: 0 1px 1px 0; float:left;"></a>
+          <a href="./nab.html"> <img src="../static/data/images/nab.png" class="img-fluid" alt="NAB" width="300" height="300" style="padding: 0 1px 1px 0; float:left;"></a>
+          <a href="./wbc.html"> <img src="../static/data/images/wbc.png" class="img-fluid" alt="Westpac" width="300" height="300" style="padding: 0 1px 1px 0; float:left;"></a>
+        </div>
+          <p>
+          </p>
+        
+      </div> 
+    
+    </div>
+
+  </div>
+  
+</main>
+</body>
+
+</html>
