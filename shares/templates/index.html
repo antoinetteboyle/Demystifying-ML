@@ -75,91 +75,128 @@
   <div class="container-fluid">   
     <div class="row justify-content-between">
     
-      <div class="col-sm-8">
+      <div class="col-sm-12">
 
-        <div id="myCarousel" class="carousel slide" data-ride="carousel">
-          <!-- Indicators -->
-          <ol class="carousel-indicators">  
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
-          </ol>
-      
-          <!-- Wrapper for slides -->
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img src="../static/data/images/sydney.png" class="d-block w-42" alt="Sydney" style="width:42%;">
-            </div>
-      
-            <div class="carousel-item">
-              <img src="../static/data/images/brisbane.png" class="d-block w-42" alt="Perth" style="width:42%;">
-            </div>
-          
-            <div class="carousel-item">
-              <img src="../static/data/images/melbourne.png" class="d-block w-42" alt="melbourne" style="width:42%;">
-            </div>
-          </div>
-      
-          <!-- Left and right controls -->
-          <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left"></span>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a class="right carousel-control" href="#myCarousel" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right"></span>
-            <span class="sr-only">Next</span>
-          </a>
-        </div>
+        <h2><strong>Future of ASX Top 5 Market Caps</strong></h2>
+        <hr> </hr>
         <p> 
-          
-      </p>
-        <p> 
-          Select an Australian ASX company from the left to predict the share market price on future trading days!
-      </p>
-          <h2><strong>ASX Top 5 Market Caps</strong></h2>
-          <hr> </hr>
-          <p> 
-              “While there are more than 2,000 companies listed on the ASX, 
-              smaller companies are considered to be riskier investments. 
-              This is due to having smaller resources than large cap campanies, 
-              making them vunerable to negative events and bearish sentients.”
-          </p>
+            “While there are more than 2,000 companies listed on the ASX, 
+            smaller companies are considered to be riskier investments. 
+            This is due to having smaller resources than large capital companies, 
+            making them vunerable to negative events and bearish sentients.”
+        </p>
 
-        
-      <h2><strong>Machine Learning</strong></h2>
-      <p>      Time Series Model - LSTM using a weighted average of the past 60days</p>
-      <div class="col">
-        
-    </div>
+
+      <p> 
+      </p>
+    </div> 
+
      
-    </div>
+     
+    <!-- </div>
       <div class="col-sm-1">
-    </div>
+    </div> -->
 
 
-    <div class="col-sm-3"> 
-          <h2><strong>Companies</strong></h2>
+    <div class="col-sm-12"> 
+     
+          <h3><strong>Machine Learning:</strong></h3>
           <hr> </hr>
-          <a href="./bhp.html"> <img src="../static/data/images/bhp.png" class="img-fluid" alt="BHP Group" width="300" height="300" style="padding: 0 1px 1px 0; float:left;"></a>
-          <a href="./cba.html"> <img src="../static/data/images/cba.png" class="img-fluid" alt="Commonwealth Bank" width="300" height="300" style="padding: 0 1px 1px 0; float:left;"></a>
-          <a href="./csl.html"> <img src="../static/data/images/csl.png" class="img-fluid" alt="CSL" width="300" height="300" style="padding: 0 1px 1px 0; float:left;"></a>
-          <a href="./nab.html"> <img src="../static/data/images/nab.png" class="img-fluid" alt="NAB" width="300" height="300" style="padding: 0 1px 1px 0; float:left;"></a>
-          <a href="./wbc.html"> <img src="../static/data/images/wbc.png" class="img-fluid" alt="Westpac" width="300" height="300" style="padding: 0 1px 1px 0; float:left;"></a>
+          <p> Long Short-Term Memory (LSTM) networks are a type of "recurrent neural network". Predict the future Share Price of one the following ASX companies by clicking below:</p>
+          <hr> </hr>
+          <a href="./bhp.html"> <img src="../static/data/images/bhp.png" class="img-fluid" alt="BHP Group" width="240" height="240" style="padding: 0 1px 1px 0; float:left;"></a>
+          <a href="./cba.html"> <img src="../static/data/images/cba.png" class="img-fluid" alt="Commonwealth Bank" width="240" height="200" style="padding: 0 1px 1px 0; float:left;"></a>
+          <a href="./csl.html"> <img src="../static/data/images/csl.png" class="img-fluid" alt="CSL" width="240" height="240" style="padding: 0 1px 1px 0; float:left;"></a>
+          <a href="./nab.html"> <img src="../static/data/images/nab.png" class="img-fluid" alt="NAB" width="240" height="240" style="padding: 0 1px 1px 0; float:left;"></a>
+          <a href="./wbc.html"> <img src="../static/data/images/wbc.png" class="img-fluid" alt="Westpac" width="240" height="240" style="padding: 0 1px 1px 0; float:left;"></a>
       </div>
 
       <p>
       </p>
-
-   
-        
-      </div> 
-    
     </div> 
 
-  </div>
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">  
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+      </ol>
   
-</main>
-<script src="{{url_for('static',filename='app_scatter.js')}}"></script>
+      <!-- Wrapper for slides -->
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="../static/data/images/sydney.png" class="d-block w-20" alt="Sydney" style="width:20%;">
+        </div>
+  
+        <div class="carousel-item">
+          <img src="../static/data/images/brisbane.png" class="d-block w-20" alt="Perth" style="width:20%;">
+        </div>
+      
+        <div class="carousel-item">
+          <img src="../static/data/images/melbourne.png" class="d-block w-20" alt="melbourne" style="width:20%;">
+        </div>
+      </div>
+  
+      <!-- Left and right controls -->
+      <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" href="#myCarousel" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+
+  </div>
+
+   
+      <div class="col-sm-12">
+    
+        <p> 
+          <h3><strong>Share Price History and Interest rates</strong></h3>
+          
+          <form action="/scat_data" method= 'POST'>
+            <label for="comp">Choose a Company:</label>
+            <select name="comp" id="comp">
+              <option value="CBA">CBA</option>
+              <option value="NAB">NAB</option>
+              <option value="WBS">WBS</option>
+            </select>
+            <!-- <br><br>
+            <input type="submit" value="Submit"> -->
+          </form>
+
+
+          Select your prefered x and y axis. The size of the bubbles 
+          represent the share price. Colour separates the years.
+            <div class="row">
+              <div class="col-xs-12  col-md-12">
+                <div id="scatter">
+                  <!-- We append chart here. -->
+                  {{ dict }}
+                
+                </div>
+              </div>
+            </div>
+        </p>   
+        <script src="{{url_for('static',filename='js/app.js')}}"></script>
+   <!-- <script type="text/javascript" src="./js/static/app_scatter.js"></script> -->
+
+    </div>
+        
+   
+    
+  
+  
+</main><!-- Bring in d3scatter stylesheet -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../static/css/d3Style.css">
+
+
+
 </body>
 
 </html>

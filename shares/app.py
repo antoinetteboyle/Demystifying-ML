@@ -4,6 +4,7 @@ from keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
 import pandas as pd
 import numpy as np
+import json
 
 # Create an instance of Flask
 app = Flask(__name__)
@@ -17,12 +18,28 @@ model_in = load_model('./static/nab_model.sav')
 model_in = load_model('./static/wbc_model.sav')
 
 # Read in the CSV file
+df_cba = pd.read_csv("./static/data/cba.csv")
+df_cba = df_cba.dropna()
+df_cba = df_cba.iloc[-800:]
+# df_bhp = pd.read_csv("./static/data/bhp.csv")
+# df_bhp = df_bhp.dropna()
+# df_bhp = df_bhp.iloc[-100:]
+# df_csl = pd.read_csv("./static/data/csl.csv")
+# df_csl = df_csl.dropna()
+# df_csl = df_csl.iloc[-100:]
+df_nab = pd.read_csv("./static/data/nab.csv")
+df_nab = df_nab.dropna()
+df_nab = df_nab.iloc[-100:]
+df_wbc = pd.read_csv("./static/data/wbc.csv")
+df_wbc = df_wbc.dropna()
+df_wbc = df_wbc.iloc[-300:]
 df_bhp_sixty = pd.read_csv("./static/data/bhp_sixty.csv")
 df_cba_sixty = pd.read_csv("./static/data/cba_sixty.csv")
 df_csl_sixty = pd.read_csv("./static/data/csl_sixty.csv")
 df_nab_sixty = pd.read_csv("./static/data/nab_sixty.csv")
 df_wbc_sixty = pd.read_csv("./static/data/wbc_sixty.csv")
 dates_df = pd.read_csv("./static/data/dates.csv")
+dates_df['Count'] = dates_df['Count'].fillna(0).astype(int)
 close_sixty_val_bhp = df_bhp_sixty[-60:].values
 last_sixty_bhp = close_sixty_val_bhp.reshape(-1,1)
 close_sixty_val_cba = df_cba_sixty[-60:].values
@@ -41,8 +58,55 @@ mongo = PyMongo(app, uri="mongodb://localhost:27017/sharesDB")
 # Route to render HOMEPAGE index.html template
 @app.route("/")
 def home():
-    # Return template and data
     return render_template("index.html")
+
+@app.route("/scat_data", methods=('GET','POST'))
+def scat_data():
+    request_type = request.method
+
+    if request_type == 'GET':
+        dict_s=[{}]
+        return render_template('index.html',dict=dict_s)
+    else:
+        print('entered else')
+        comp = request.form['comp']
+        if str(comp) == "CBA":
+            print('after entered else')
+            dict_s = df_cba.to_dict(orient='records')
+        elif str(comp) == "NAB":
+            dict_s = df_nab.to_dict(orient='records')
+        elif str(comp) == "WBC":
+            dict_s = df_wbc.to_dict(orient='records')
+     # Return template and data
+        print(jsonify(dict_s))
+        return jsonify(dict=dict_s)
+    
+
+@app.route("/cba_data")
+def cba_data():
+    # Return template and data
+    cba_dict = df_cba.to_dict(orient='records')
+    print(jsonify(cba_dict))
+    return jsonify(dict=cba_dict)
+
+# @app.route("/csl_data")
+# def csl_data():
+#     # Return template and data
+#     csl_dict = df_csl.to_dict(orient='records')
+#     return jsonify(dict=csl_dict)
+
+# @app.route("/nab_data")
+# def nab_data():
+#     # Return template and data
+#     nab_dict = df_nab.to_dict(orient='records')
+#     return jsonify(dict=nab_dict)
+
+# @app.route("/wbc_data")
+# def wbc_data():
+#     # Return template and data
+#     wbc_dict = df_wbc.to_dict(orient='records')
+#     return jsonify(dict=wbc_dict)
+
 
 @app.route("/cba.html", methods=('GET','POST'))
 def predict_cba():
@@ -314,3 +378,6 @@ def predict_wbc():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+# if __name__ == '__main__':
+#     app.run(host='0.0.0.0', debug = False)
