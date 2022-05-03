@@ -20,19 +20,19 @@ model_in = load_model('./static/wbc_model.sav')
 # Read in the CSV file
 df_cba = pd.read_csv("./static/data/cba.csv")
 df_cba = df_cba.dropna()
-df_cba = df_cba.iloc[-800:]
+df_cba = df_cba.iloc[-5000:]
 # df_bhp = pd.read_csv("./static/data/bhp.csv")
 # df_bhp = df_bhp.dropna()
 # df_bhp = df_bhp.iloc[-100:]
 # df_csl = pd.read_csv("./static/data/csl.csv")
 # df_csl = df_csl.dropna()
 # df_csl = df_csl.iloc[-100:]
-df_nab = pd.read_csv("./static/data/nab.csv")
-df_nab = df_nab.dropna()
-df_nab = df_nab.iloc[-100:]
-df_wbc = pd.read_csv("./static/data/wbc.csv")
-df_wbc = df_wbc.dropna()
-df_wbc = df_wbc.iloc[-300:]
+# df_nab = pd.read_csv("./static/data/nab.csv")
+# df_nab = df_nab.dropna()
+# df_nab = df_nab.iloc[-100:]
+# df_wbc = pd.read_csv("./static/data/wbc.csv")
+# df_wbc = df_wbc.dropna()
+# df_wbc = df_wbc.iloc[-300:]
 df_bhp_sixty = pd.read_csv("./static/data/bhp_sixty.csv")
 df_cba_sixty = pd.read_csv("./static/data/cba_sixty.csv")
 df_csl_sixty = pd.read_csv("./static/data/csl_sixty.csv")
@@ -60,26 +60,30 @@ mongo = PyMongo(app, uri="mongodb://localhost:27017/sharesDB")
 def home():
     return render_template("index.html")
 
-@app.route("/scat_data", methods=('GET','POST'))
-def scat_data():
-    request_type = request.method
-
-    if request_type == 'GET':
-        dict_s=[{}]
-        return render_template('index.html',dict=dict_s)
-    else:
-        print('entered else')
-        comp = request.form['comp']
-        if str(comp) == "CBA":
-            print('after entered else')
-            dict_s = df_cba.to_dict(orient='records')
-        elif str(comp) == "NAB":
-            dict_s = df_nab.to_dict(orient='records')
-        elif str(comp) == "WBC":
-            dict_s = df_wbc.to_dict(orient='records')
-     # Return template and data
-        print(jsonify(dict_s))
-        return jsonify(dict=dict_s)
+# @app.route("/scat_data", methods=('GET','POST'))
+# def scat_data(): 
+#     comp = request.form['comp']
+#     print(comp)
+#     if request.method == 'GET':
+#             print(request.form['comp'])
+#             dict = df_cba.to_dict(orient='records')
+#     elif request.method == 'POST':
+#             print('entered elif POST')
+#             comp = request.form['comp']
+#             if str(comp) == "CBA":
+#                 print('entered elif CBA')
+#                 dict = df_cba.to_dict(orient='records')
+#             elif str(comp) == "NAB":
+#                 print('entered elif NAB')
+#                 dict = df_nab.to_dict(orient='records')
+#             elif str(comp) == "WBC":
+#                 dict = df_wbc.to_dict(orient='records')
+#                 print('entered elif WBC')
+#     else:
+#             dict = df_cba.to_dict(orient='records')
+#             print('entered else CBA')
+#             print(jsonify(dict))
+#     return jsonify(dict=dict)
     
 
 @app.route("/cba_data")

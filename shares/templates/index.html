@@ -157,9 +157,9 @@
         <p> 
           <h3><strong>Share Price History and Interest rates</strong></h3>
           
-          <form action="/scat_data" method= 'POST'>
-            <label for="comp">Choose a Company:</label>
-            <select name="comp" id="comp">
+          <!-- <form action="/scat_data" method= 'POST'> -->
+            <label for="comp">Choose a Finance Company :</label>
+            <select name="comp">
               <option value="CBA">CBA</option>
               <option value="NAB">NAB</option>
               <option value="WBS">WBS</option>
@@ -175,7 +175,7 @@
               <div class="col-xs-12  col-md-12">
                 <div id="scatter">
                   <!-- We append chart here. -->
-                  {{ dict }}
+                
                 
                 </div>
               </div>

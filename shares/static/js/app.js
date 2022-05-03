@@ -25,10 +25,10 @@ function makeResponsive() {
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  // Read the data
+  // Read the data 
   d3.json("/cba_data").then(flask_data => {
     data=flask_data.dict
-    
+  
     Object.entries(data).forEach(([key, value]) => {
       console.log(key, value);
     });
@@ -39,7 +39,7 @@ function makeResponsive() {
 
       if (chosenXAxis === "Volume") {
         var xmin = 150;
-        var xmax = 25000000;
+        var xmax = 20000000;
       }
       if (chosenXAxis === "RBA") {
         var xmin = -0.05;
@@ -240,7 +240,7 @@ function makeResponsive() {
 
         if (chosenXAxis === "Volume") {
           var xmin = 150;
-          var xmax = 25000000;
+          var xmax = 20000000;
         }
         if (chosenXAxis === "RBA") {
           var xmin = -0.05;
@@ -335,7 +335,7 @@ function makeResponsive() {
 
         if (chosenXAxis === "Volume") {
           var xmin = 150;
-          var xmax = 25000000;
+          var xmax = 20000000;
         }
         if (chosenXAxis === "RBA") {
           var xmin = -0.08;
