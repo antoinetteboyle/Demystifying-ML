@@ -20,7 +20,7 @@ model_in = load_model('./static/wbc_model.sav')
 # Read in the CSV file
 df_cba = pd.read_csv("./static/data/cba.csv")
 df_cba = df_cba.dropna()
-df_cba = df_cba.iloc[-5000:]
+df_cba = df_cba.iloc[-4250:]
 # df_bhp = pd.read_csv("./static/data/bhp.csv")
 # df_bhp = df_bhp.dropna()
 # df_bhp = df_bhp.iloc[-100:]
