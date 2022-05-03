@@ -23,7 +23,7 @@ Our dataset contained over 5000 rows of daily trading datafor each ASX listed co
 Each company page provides general information, a graph of the model, an input form and an interactive table. 
 
 link to the presentation slides:
-[PresentationSlides]('???")
+[PresentationSlides](https://docs.google.com/presentation/d/1zFAu_i_pfhHLMyPYkR6oLFKJ_95ANjQLXZkapC0a81c/edit#slide=id.g12750386a60_0_0)
 
 link to AWS website: 
 [AWS website]('http://ec2-54-79-61-102.ap-southeast-2.compute.amazonaws.com:5000")
