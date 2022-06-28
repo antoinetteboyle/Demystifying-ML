@@ -92,52 +92,102 @@
         Founders: Andrew Fisher, King O'Malley
       </p>
 
-      <p> 
-        Graph below depicts Share price (y-axis) versus Trading Days (x-axis) from 01/01/2000 to present date
-      </p>
-
       <center>
-        <img src="{{href}}" alt="href for pict" class="img-fluid" width="780" height="300";>
-        <p>                                 </p>
-        <form method= 'POST'>
-        <h4><strong>LSTM Machine Learning Prediction:</strong></h4>
-        <p> Select number of Trading Days into the future from today:</p>
-        <label> <b></strong>(Numbers between 1 and 300)</b></label>
-        <input type="number" name="text" min="1" max="300" >
+        <img src="{{href}}" alt="href for pict" class="img-fluid" width="700" height="300";>
+        <p></p>
+      <form method= 'POST'>
+          <h4><strong>LSTM Machine Learning Model:</strong></h4>
+          <p></p>
+          <p> Long Short-Term Memory (LSTM) networks are a type of "recurrent neural network".
+          Predict future daily closing Share Price based on past share price behavior/fluctuations:</p>
+          <label> <b></strong>Select number of predictions between 1 and 30</b></label>
+          <input type="number" name="text" min="1" max="30" value="20">
         <input type="submit">
-        </form>
-        <p> Scroll down and find your Share Price results below</p>
-       
-      </center>
-      <p>
-        {% block content %}
+      
+        <p>
+          <p><b> RESULTS: </b> </p>
+          {% block content %}
+            <table id="data" class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Count</th>
+                  <th>Date</th>
+                  <th>Day of Week</th>
+                  <th>Predicted Share Price AUD$</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for user in dict %}
+                  <tr>
+                    <td>{{ user.Count }}</td>
+                    <td>{{ user.Date }}</td>
+                    <td>{{ user.DOW }}</td>
+                    <td>{{ user.Price }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% endblock %}
+          </p>
+        <p>The root mean square error (RMSE) of this LSTM is 2.3282.</p>
+        <p>(The closer RMSE to 0, the most favourable)</p>
+        <p>   </p>
+        <p>   </p>
+        <hr></hr>
+        <p>   </p>
+        <h4><strong>Random Forest Regression Machine Learning:</strong></h4>
+        <p></p>
+        <img src="{{hreftwo}}" alt="hreftwo for RandomForest" class="img-fluid" width="780" height="600";>
+        <p></p>
+        <p> Predict a Closing Share Price based on a selected CPI and RBA and FED cash interest rate:</p>
+        <p></p>
+        <p><b> Select start point:</b></p>
+        <label> RBA between 0 and 10:</label>
+        <input type="number" step="any" name="rba" min="0" max="10" value="0.85" >
+        <label> FED between 0 and 10:</label>
+        <input type="number" step="any" name="fed" min="0" max="10" value="1.75" >
+        <label> CPI between 120 and 200:</label>
+        <input type="number" step="any" name="cpi" min="120" max="200" value="125.00">
+        <input type="submit">
+
+        <p></p>
+        <p><b> RESULTS: </b> </p>
+        <p>Closing Share Price prediction and impact of increasing RBA, FED cash rate by 0.01 point and CPI by 1 from start:</b></p>
+      
+      <div>
+        <ul style="list-style: none;">
+        
+          <!-- Loop through the dictionary -->
+
           <table id="data" class="table table-striped">
             <thead>
               <tr>
-                <th>Count</th>
-                <th>Date</th>
-                <th>Day of Week</th>
-                <th>Price AUD$</th>
+                <th>RBA</th>
+                <th>FED</th>
+                <th>CPI</th>
+                <th>Predicted Closing Price AUD$</th>
               </tr>
             </thead>
             <tbody>
-              {% for user in dict %}
+              {% for tree in dtree %}
                 <tr>
-                  <td>{{ user.Count }}</td>
-                  <td>{{ user.Date }}</td>
-                  <td>{{ user.DOW }}</td>
-                  <td>{{ user.Price }}</td>
+                  <td>{{ tree.RBA }}</td>
+                  <td>{{ tree.FED }}</td>
+                  <td>{{ tree.CPI }}</td>
+                  <td>{{ tree.Prediction }}</td>
                 </tr>
               {% endfor %}
             </tbody>
           </table>
-        {% endblock %}
-        </p>
-            
   
+        </ul>
+      </div>
+<p>R2 score for this Random Forest Regressor is: 0.9945662207013091</p>
+<p>(R2 Score is a very popular metric used for evaluating the performance of linear regression models. Where R2 Score is between 0 and 1, the closer to 1, the better the regression fit.)</p>
+</center>
 <div>
 </div>
-      </div>
+</div>      
       <div class="col-sm-1">
       </div>
   
@@ -161,8 +211,6 @@
             {% endblock %}
           </p>
         
-      </div> 
-    
     </div>
 
   </div>

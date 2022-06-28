@@ -1,7 +1,7 @@
 /// declare data from in a list of many dicts/rows
 var data
 
-var option = d3.select("#comp").on("change",makeResponsive);
+var option = d3.select("select#comp").on("change",makeResponsive);
 
 function makeResponsive() {
   var svgArea = d3.select("body").select("svg");
@@ -25,65 +25,29 @@ function makeResponsive() {
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+  // Choosing a company
+  url = "/cba_data" // default
+  d3.select("#comp").on("click", function () {
+  var option = d3.select("#comp").property("value");
+  option = option.toString()
+  console.log(`option found ${option}`);
+    if ("CBA"==option) {
+      url = "/cba_data"
+    } else if ("NAB"==option) {
+      url = "/nab_data" 
+    } else if ("WBC"==option) {
+      url = "/wbc_data" 
+    } else if ("CSL"==option) {
+      url = "/csl_data" 
+    } else if ("BHP"==option) {
+      url = "/bhp_data" 
+    }
+
+  console.log(url);
+ 
   // Read the data 
-  d3.json("/cba_data").then(flask_data => {
+  d3.json(url).then(flask_data => {
     data=flask_data.dict
-  
-    Object.entries(data).forEach(([key, value]) => {
-      console.log(key, value);
-    });
-
-      var chosenXAxis = "Volume"; //default
-      var chosenYAxis = "Close"; //default
-      // Add X axis
-
-      if (chosenXAxis === "Volume") {
-        var xmin = 150;
-        var xmax = 20000000;
-      }
-      if (chosenXAxis === "RBA") {
-        var xmin = -0.05;
-        var xmax = 7.5;
-      }
-      if (chosenXAxis === "FED") {
-        var xmin = -0.05;
-        var xmax = 7;
-      }
-
-      var x = d3
-        .scaleLinear()
-        .domain([xmin, xmax])
-        // var x = d3.scaleLinear()
-        // .domain([d3.min(data, d => d[chosenXAxis]) * 0.97,
-        //  d3.max(data, d => d[chosenXAxis]) * 1.02])
-        .range([0, width]);
-      svg
-        .append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .attr("class", "x_axislabels")
-        .call(d3.axisBottom(x));
-
-      if (chosenYAxis === "Open") {
-        var ymin = 20;
-        var ymax = 115;
-      }
-      if (chosenYAxis === "High") {
-        var ymin = 20;
-        var ymax = 115;
-      }
-      if (chosenYAxis === "Close") {
-        var ymin = 20;
-        var ymax = 115;
-      }
-
-      // Add Y axis
-      var y = d3
-        .scaleLinear()
-        // .domain([d3.min(data, d => d[chosenYAxis]) * 0.94,
-        //  d3.max(data, d => d[chosenYAxis]) * 1.05])
-        .domain([ymin, ymax])
-        .range([height, 0]);
-      svg.append("g").attr("class", "y_axislabels").call(d3.axisLeft(y));
 
       // Add a scale for bubble size
       const z = d3.scaleLinear().domain([20, 140]).range([4, 10]);
@@ -129,31 +93,7 @@ function makeResponsive() {
         tooltip.transition().duration(200).style("opacity", 0);
       };
 
-      // Add dots
 
-      var circlesGroup = svg
-        .append("g")
-        .attr("class", "node_wrapper")
-        .selectAll("dot")
-        .data(data)
-        .join("g")
-        .attr("class", "bubble_wrapper")
-        .append("circle")
-        .attr("class", "bubbles")
-        .attr("cx", (d) => x(d[chosenXAxis]))
-        .attr("cy", (d) => y(d[chosenYAxis]))
-        .attr("r", (d) => z(d.Close))
-        .style("fill", (d) => myColor(d.Date.slice(-4)))
-        .on("mouseover", showTooltip)
-        .on("mousemove", moveTooltip)
-        .on("mouseleave", hideTooltip);
-
-      d3.selectAll(".bubble_wrapper")
-        .data(data)
-        //.append("text").text(d => d.Date)
-        .attr("text-anchor", "middle")
-        .attr("x", (d) => x(d[chosenXAxis]))
-        .attr("y", (d) => y(d[chosenYAxis]));
 
       // Create Extra y-axis click labels
       var ylabelsGroup = svg
@@ -223,6 +163,91 @@ function makeResponsive() {
         .classed("inactive", true)
         .text("FED Interest Rate");
 
+
+    var chosenXAxis = "Volume"; //default
+    var chosenYAxis = "Close"; //default
+    var x;
+    var y;
+
+    function axis_func(chosenXAxis,chosenYAxis) {
+          // Add X axis
+          if (chosenXAxis === "Volume") {
+            if ("CSL"==option) {
+              var xmin = 150;
+            var xmax = 8000000;
+            } else {
+              var xmin = 150;
+              var xmax = 20000000;
+            }
+          }
+          if (chosenXAxis === "RBA") {
+            var xmin = -0.05;
+            var xmax = 7.5;
+          }
+          if (chosenXAxis === "FED") {
+            var xmin = -0.05;
+            var xmax = 7;
+          }
+          var x = d3
+            .scaleLinear()
+            .domain([xmin, xmax])
+            .range([0, width]);
+          svg
+            .append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .attr("class", "x_axislabels")
+            .call(d3.axisBottom(x));
+    
+          if ("CBA"==option) {
+            var ymin = 20;
+            var ymax = 115;
+          } else if ("NAB"==option) {
+            var ymin = 15;
+            var ymax = 45;
+          } else if ("WBC"==option) {
+            var ymin = 15;
+            var ymax = 40;
+          } else if ("CSL"==option) {
+            var ymin = 0;
+            var ymax = 350;
+          } else if ("BHP"==option) {
+            var ymin = 10;
+            var ymax = 55;
+          }
+          var y = d3.scaleLinear().domain([ymin, ymax]).range([height, 0]);
+          svg.append("g").attr("class", "y_axislabels").call(d3.axisLeft(y));
+    
+        // Add dots
+  
+        var circlesGroup = svg
+          .append("g")
+          .attr("class", "node_wrapper")
+          .selectAll("dot")
+          .data(data)
+          .join("g")
+          .attr("class", "bubble_wrapper")
+          .append("circle")
+          .attr("class", "bubbles")
+          .attr("cx", (d) => x(d[chosenXAxis]))
+          .attr("cy", (d) => y(d[chosenYAxis]))
+          .attr("r", (d) => z(d.Close))
+          .style("fill", (d) => myColor(d.Date.slice(-4)))
+          .on("mouseover", showTooltip)
+          .on("mousemove", moveTooltip)
+          .on("mouseleave", hideTooltip);
+  
+        d3.selectAll(".bubble_wrapper")
+          .data(data)
+          //.append("text").text(d => d.Date)
+          .attr("text-anchor", "middle")
+          .attr("x", (d) => x(d[chosenXAxis]))
+          .attr("y", (d) => y(d[chosenYAxis]))
+          .transition()
+          .duration(4000);
+
+      } // END CREATE AXIS FUNCTION AND CALL CREATE AXIS FUNCTION
+      axis_func(chosenXAxis,chosenYAxis)
+
       // $$$ Y AXIS Event listener Click $$$
       d3.selectAll("text.ylabels").on("click", function () {
         var value = d3.select(this).attr("value");
@@ -237,73 +262,9 @@ function makeResponsive() {
         d3.selectAll("g.x_axislabels").remove();
         d3.selectAll("g.y_axislabels").remove();
         d3.selectAll("g.node_wrapper").remove().transition().duration(9000);
-
-        if (chosenXAxis === "Volume") {
-          var xmin = 150;
-          var xmax = 20000000;
-        }
-        if (chosenXAxis === "RBA") {
-          var xmin = -0.05;
-          var xmax = 7.5;
-        }
-        if (chosenXAxis === "FED") {
-          var xmin = -0.05;
-          var xmax = 7;
-        }
-
-        var x = d3.scaleLinear().domain([xmin, xmax]).range([0, width]);
-        svg
-          .append("g")
-          .attr("transform", "translate(0," + height + ")")
-          .attr("class", "x_axislabels")
-          .call(d3.axisBottom(x));
-
-        if (chosenYAxis === "Open") {
-          var ymin = 20;
-          var ymax = 115;
-        }
-        if (chosenYAxis === "High") {
-          var ymin = 20;
-          var ymax = 115;
-        }
-        if (chosenYAxis === "Close") {
-          var ymin = 20;
-          var ymax = 115;
-        }
-
-        var y = d3.scaleLinear().domain([ymin, ymax]).range([height, 0]);
-        svg
-          .append("g")
-          .transition()
-          .duration(600)
-          .attr("class", "y_axislabels")
-          .call(d3.axisLeft(y));
-
-        var circlesGroup = svg
-          .append("g")
-          .attr("class", "node_wrapper")
-          .selectAll("dot")
-          .data(data)
-          .join("g")
-          .attr("class", "bubble_wrapper")
-          .append("circle")
-          .attr("class", "bubbles")
-          .attr("cx", (d) => x(d[chosenXAxis]))
-          .attr("cy", (d) => y(d[chosenYAxis]))
-          .attr("r", (d) => z(d.Close))
-          .style("fill", (d) => myColor(d.Date.slice(-4)))
-          // -3- Trigger the functions
-          .on("mouseover", showTooltip)
-          .on("mousemove", moveTooltip)
-          .on("mouseleave", hideTooltip);
-        d3.selectAll(".bubble_wrapper")
-          .data(data)
-          // .append("text").text(d => d.Date)
-          .attr("text-anchor", "middle")
-          .attr("x", (d) => x(d[chosenXAxis]))
-          .attr("y", (d) => y(d[chosenYAxis]))
-          .transition()
-          .duration(4000);
+        
+        // CALL CREATE AXIS FUNCTION
+        axis_func(chosenXAxis,chosenYAxis)
 
         // Unselected option classes to change bold text off
         if (chosenYAxis !== "Open") {
@@ -333,71 +294,8 @@ function makeResponsive() {
         d3.selectAll("g.y_axislabels").remove();
         d3.selectAll("g.node_wrapper").remove().transition().duration(9000);
 
-        if (chosenXAxis === "Volume") {
-          var xmin = 150;
-          var xmax = 20000000;
-        }
-        if (chosenXAxis === "RBA") {
-          var xmin = -0.08;
-          var xmax = 7.5;
-        }
-        if (chosenXAxis === "FED") {
-          var xmin = -0.05;
-          var xmax = 7.0;
-        }
-
-        //update x-Axis
-        var x = d3.scaleLinear().domain([xmin, xmax]).range([0, width]);
-        svg
-          .append("g")
-          .transition()
-          .duration(400)
-          .attr("transform", "translate(0," + height + ")")
-          .attr("class", "x_axislabels")
-          .call(d3.axisBottom(x));
-
-        if (chosenYAxis === "Open") {
-          var ymin = 20;
-          var ymax = 115;
-        }
-        if (chosenYAxis === "High") {
-          var ymin = 20;
-          var ymax = 115;
-        }
-        if (chosenYAxis === "Close") {
-          var ymin = 20;
-          var ymax = 115;
-        }
-
-        var y = d3.scaleLinear().domain([ymin, ymax]).range([height, 0]);
-        svg.append("g").attr("class", "y_axislabels").call(d3.axisLeft(y));
-
-        var circlesGroup = svg
-          .append("g")
-          .attr("class", "node_wrapper")
-          .selectAll("dot")
-          .data(data)
-          .join("g")
-          .attr("class", "bubble_wrapper")
-          .append("circle")
-          .attr("class", "bubbles")
-          .attr("cx", (d) => x(d[chosenXAxis]))
-          .attr("cy", (d) => y(d[chosenYAxis]))
-          .attr("r", (d) => z(d.Close))
-          .style("fill", (d) => myColor(d.Date.slice(-4)))
-          // -3- Trigger tooltip functions
-          .on("mouseover", showTooltip)
-          .on("mousemove", moveTooltip)
-          .on("mouseleave", hideTooltip);
-
-        d3.selectAll(".bubble_wrapper")
-          .data(data)
-          // .append("text").text(d => d.Date)
-          .attr("text-anchor", "middle")
-          .attr("x", (d) => x(d[chosenXAxis]))
-          .attr("y", (d) => y(d[chosenYAxis]))
-          .transition()
-          .duration(9000);
+      // CALL CREATE AXIS FUNCTION
+      axis_func(chosenXAxis,chosenYAxis)
 
         // unselected option classes to change bold text off
         if (chosenXAxis !== "Volume") {
@@ -413,12 +311,13 @@ function makeResponsive() {
 
       // ****** Extra labels end *******
 
+
 //       brackets to close then function and catch then errors
     })
     .catch(function (error) {
       console.log(error);
     });
-
+}); // close choose company function
   //brackets to close responsive function
 }
 

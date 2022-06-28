@@ -85,8 +85,6 @@
             This is due to having smaller resources than large capital companies, 
             making them vunerable to negative events and bearish sentients.”
         </p>
-
-
       <p> 
       </p>
     </div> 
@@ -102,7 +100,7 @@
      
           <h3><strong>Machine Learning:</strong></h3>
           <hr> </hr>
-          <p> Long Short-Term Memory (LSTM) networks are a type of "recurrent neural network". Predict the future Share Price of one the following ASX companies by clicking below:</p>
+          <p>  Predict the future Share Price of one the following ASX companies by clicking below:</p>
           <hr> </hr>
           <a href="./bhp.html"> <img src="../static/data/images/bhp.png" class="img-fluid" alt="BHP Group" width="240" height="240" style="padding: 0 1px 1px 0; float:left;"></a>
           <a href="./cba.html"> <img src="../static/data/images/cba.png" class="img-fluid" alt="Commonwealth Bank" width="240" height="200" style="padding: 0 1px 1px 0; float:left;"></a>
@@ -157,16 +155,14 @@
         <p> 
           <h3><strong>Share Price History and Interest rates</strong></h3>
           
-          <!-- <form action="/scat_data" method= 'POST'> -->
             <label for="comp">Choose a Finance Company :</label>
-            <select name="comp">
+            <select id="comp" name="comp" onchange="makeResponsive()">
               <option value="CBA">CBA</option>
               <option value="NAB">NAB</option>
-              <option value="WBS">WBS</option>
+              <option value="WBC">WBC</option>
+              <option value="BHP">BHP</option>
+              <option value="CSL">CSL</option>
             </select>
-            <!-- <br><br>
-            <input type="submit" value="Submit"> -->
-          </form>
 
 
           Select your prefered x and y axis. The size of the bubbles 

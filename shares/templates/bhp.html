@@ -93,24 +93,24 @@
         Subsidiary: Australian Iron & Steel
       </p>
 
-      <p> 
-        Graph below depicts Share price (y-axis) versus Trading Days (x-axis) from 01/01/2000 to present date
-      </p>
 
       <center>
         <img src="{{href}}" alt="href for pict" class="img-fluid" width="780" height="300";>
         <p>                                 </p>
         <form method= 'POST'>
-        <h4><strong>LSTM Machine Learning Prediction:</strong></h4>
-        <p> Select number of Trading Days into the future from today:</p>
-        <label> <b></strong>(Numbers between 1 and 300)</b></label>
-        <input type="number" name="text" min="1" max="300" >
+        <h4><strong>LSTM Machine Learning Model:</strong></h4>
+
+         <p> Long Short-Term Memory (LSTM) networks are a type of "recurrent neural network".
+          Predict future daily closing Share Price based on past share price behavior/fluctuations:</p>
+        <label> <b></strong>(Select number of predictions between 1 and 30)</b></label>
+        <input type="number" name="text" min="1" max="300" value="20" >
         <input type="submit">
         </form>
-        <p> Scroll down and find your Share Price results below</p>
-      </center>
+        <p></p>
+    
       
       <p>
+        <p><b> RESULTS: </b> </p>
         {% block content %}
           <table id="data" class="table table-striped">
             <thead>
@@ -132,9 +132,14 @@
               {% endfor %}
             </tbody>
           </table>
-        {% endblock %}
+          {% endblock %}
         </p>
-     
+      <p>The root mean square error (RMSE) of this LSTM is 0.0056.</p>
+      <p>(The closer RMSE to 0, the most favourable)</p>
+      <p> </p>
+      <hr></hr>
+      </center>
+
 <div>
 </div>
 
