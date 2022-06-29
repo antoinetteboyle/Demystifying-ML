@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, request, jsonify
-from flask_pymongo import PyMongo
+from flask_pymongo import pymongo
 from keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
 import pandas as pd
@@ -51,7 +51,10 @@ last_sixty_wbc = close_sixty_val_wbc.reshape(-1,1)
 
 
 # Use PyMongo to establish Mongo connection to the database which is named last
-mongo = PyMongo(app, uri="mongodb://localhost:27017/sharesDB")
+# mongo = pymongo(app, uri="mongodb://localhost:27017/sharesDB/companys")
+conn = 'mongodb://localhost:27017'
+client = pymongo.MongoClient(conn)
+db = client.sharesDB.companys
 
 # Route to render HOMEPAGE index.html template
 @app.route("/")
@@ -92,13 +95,15 @@ def wbc_data():
 
 @app.route("/cba.html", methods=('GET','POST'))
 def predict_cba():
+    cba_lstm = db.find_one({'model': 'LSTM','name': 'CBA'})
+    cba_rf = db.find_one({'model': 'RFR','name': 'CBA'})
     request_type = request.method
     if request_type == 'GET':
         m_dict=[{}]
         m_rfr=[{}]
         path1 = '../static/data/images/cba_graph.png'
         path2 = '../static/data/images/cba_tree.png'
-        return render_template('cba.html',href=path1,hreftwo=path2,dict=m_dict,dtree=m_rfr)
+        return render_template('cba.html',href=path1,hreftwo=path2,dict=m_dict,dtree=m_rfr,cba=cba_lstm,rf=cba_rf)
     else:
         input = request.form['text']
         if input == "":
@@ -169,14 +174,15 @@ def predict_cba():
         print(my_dict)
         path = '../static/data/images/cba_predict_graph.png'
         path2 = '../static/data/images/cba_tree.png'
-        return render_template('cba.html',href=path,dict=my_dict,hreftwo=path2,dtree=my_rf)
+        return render_template('cba.html',href=path,dict=my_dict,hreftwo=path2,dtree=my_rf,cba=cba_lstm,rf=cba_rf)
 
 @app.route('/bhp.html', methods=('GET','POST'))
 def predict_bhp():
+    bhp_mongo = db.find_one({'name': 'BHP'})
     request_type = request.method
     if request_type == 'GET':
         m_dict=[{}]
-        return render_template('bhp.html', href='../static/data/images/bhp_graph.png',dict=m_dict)
+        return render_template('bhp.html', href='../static/data/images/bhp_graph.png',dict=m_dict,bhp=bhp_mongo)
     else:
         input = request.form['text']
         if input == "":
@@ -218,16 +224,17 @@ def predict_bhp():
         dates_df_iloc['Price'] = price_list
         my_dict = dates_df_iloc.to_dict(orient='records')
         print(my_dict)
-        return render_template('bhp.html', href=path, dict=my_dict)
+      
+        return render_template('bhp.html', href=path, dict=my_dict, bhp=bhp_mongo)
 
 
 @app.route('/csl.html', methods=('GET','POST'))
 def predict_csl():
-
+    csl_mongo = db.find_one({'name': 'CSL'})
     request_type = request.method
     if request_type == 'GET':
         m_dict=[{}]
-        return render_template('csl.html', href='../static/data/images/csl_graph.png',dict=m_dict)
+        return render_template('csl.html', href='../static/data/images/csl_graph.png',dict=m_dict,csl=csl_mongo)
     else:
         input = request.form['text']
         if input == "":
@@ -269,16 +276,16 @@ def predict_csl():
         dates_df_iloc['Price'] = price_list
         my_dict = dates_df_iloc.to_dict(orient='records')
         print(my_dict)     
-        return render_template('csl.html', href=path, dict=my_dict)
+        return render_template('csl.html', href=path, dict=my_dict,csl=csl_mongo)
 
 
 @app.route('/nab.html', methods=('GET','POST'))
 def predict_nab():
-
+    nab_mongo = db.find_one({'name': 'NAB'})
     request_type = request.method
     if request_type == 'GET':
         m_dict=[{}]
-        return render_template('nab.html', href='../static/data/images/nab_graph.png',dict=m_dict)
+        return render_template('nab.html', href='../static/data/images/nab_graph.png',dict=m_dict,nab=nab_mongo)
     else:
         input = request.form['text']
         if input == "":
@@ -320,15 +327,16 @@ def predict_nab():
         dates_df_iloc['Price'] = price_list
         my_dict = dates_df_iloc.to_dict(orient='records')
         print(my_dict)
-        return render_template('nab.html', href=path, dict=my_dict)
+        return render_template('nab.html', href=path, dict=my_dict,nab=nab_mongo)
     
 
 @app.route('/wbc.html', methods=('GET','POST'))
 def predict_wbc():
+    wbc_mongo = db.find_one({'name': 'WBC'})
     request_type = request.method
     if request_type == 'GET':
         m_dict=[{}]
-        return render_template('wbc.html', href='../static/data/images/wbc_graph.png',dict=m_dict)
+        return render_template('wbc.html', href='../static/data/images/wbc_graph.png',dict=m_dict,wbc=wbc_mongo)
     else:
         input = request.form['text']
         if input == "":
@@ -370,7 +378,7 @@ def predict_wbc():
         dates_df_iloc['Price'] = price_list
         my_dict = dates_df_iloc.to_dict(orient='records')
         print(my_dict)
-        return render_template('wbc.html', href=path, dict=my_dict)
+        return render_template('wbc.html', href=path, dict=my_dict,wbc=wbc_mongo)
    
 
 # # Route that button will trigger the scrape function

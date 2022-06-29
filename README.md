@@ -23,6 +23,8 @@ Performed an ETL process and loaded the data to a MongoDb.
 
 Our dataset contained over 20 years rows of daily trading data for each ASX listed company. The machine learning models considered was LSTM, neural networks, and GridsearchCV, Categorical and Sequential Models. The model with the greatest accuracy was LSTM and consequently used. 
 
+Albert Einstein said “Memory is deceptive because it is coloured by today’s events.”
+
 Long Short-Term Memory (LSTM) networks are a type of "recurrent neural network" capable of learning order dependence in sequence prediction problems. This is a behavior required in complex problem domains like machine translation, speech recognition, and more. We performed the machine learning on each company in jupyter notebook and saved the Model into a file. This saved model was used in the web application to predict the price for a number of days(user input). 
 
 Each company page provides general information, a graph of the model, an input form and an interactive table. 

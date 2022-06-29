@@ -129,8 +129,8 @@
             </table>
           {% endblock %}
           </p>
-        <p>The root mean square error (RMSE) of this LSTM is 2.3282.</p>
-        <p>(The closer RMSE to 0, the most favourable)</p>
+        <p>The root mean square error (RMSE) of this LSTM is {{cba.rmse}}</p>
+        <p>(The closer RMSE to 0, the more favourable)</p>
         <p>   </p>
         <p>   </p>
         <hr></hr>
@@ -182,8 +182,8 @@
   
         </ul>
       </div>
-<p>R2 score for this Random Forest Regressor is: 0.9945662207013091</p>
-<p>(R2 Score is a very popular metric used for evaluating the performance of linear regression models. Where R2 Score is between 0 and 1, the closer to 1, the better the regression fit.)</p>
+<p>Accuracy for this Random Forest Regressor is: {{rf.accuracy}}%</p>
+<p>(100% being perfect accuracy)</p>
 </center>
 <div>
 </div>
