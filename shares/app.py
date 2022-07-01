@@ -20,10 +20,43 @@ model_in_wbc = load_model('./static/wbc_model.sav')
 filename = 'finalcba_model_rfr.sav'
 model_in_cba_rfr = pickle.load(open(filename, 'rb'))
 
-# Read in the CSV file
+# Use PyMongo to establish Mongo connection to the database and then the collection
+# mongo = pymongo(app, uri="mongodb://localhost:27017/sharesDB/companys")
+conn = 'mongodb://localhost:27017'
+client = pymongo.MongoClient(conn)
+shares_db = client.sharesDB  # connect to database
+db = shares_db.companys   # connect to specific collection
+db_bhp = client.sharesDB.bhp # connect to specific collection
+db_cba = client.sharesDB.cba # connect to specific collection
+db_nab = client.sharesDB.nab # connect to specific collection
+db_wbc = client.sharesDB.wbc # connect to specific collection
+db_csl = client.sharesDB.csl # connect to specific collection
+
+df_mongo_bhp = pd.DataFrame(list(db_bhp.find()))
+sixty_val_bhp = df_mongo_bhp.iloc[-60:,4].values
+last_sixty_bhp = sixty_val_bhp.reshape(-1,1)
+
+df_mongo_cba = pd.DataFrame(list(db_cba.find()))
+sixty_val_cba = df_mongo_cba.iloc[-60:,4].values
+last_sixty_cba = sixty_val_cba.reshape(-1,1)
+
+df_mongo_nab = pd.DataFrame(list(db_nab.find()))
+sixty_val_nab = df_mongo_nab.iloc[-60:,4].values
+last_sixty_nab = sixty_val_nab.reshape(-1,1)
+
+df_mongo_wbc = pd.DataFrame(list(db_wbc.find()))
+sixty_val_wbc = df_mongo_wbc.iloc[-60:,4].values
+last_sixty_wbc = sixty_val_wbc.reshape(-1,1)
+
+df_mongo_csl = pd.DataFrame(list(db_csl.find()))
+sixty_val_csl = df_mongo_csl.iloc[-60:,4].values
+last_sixty_csl = sixty_val_csl.reshape(-1,1)
+
+# Read in the CSV file for the scatter plot
 df_cba = pd.read_csv("./static/data/cba.csv")
 df_cba = df_cba.dropna()
-df_cba = df_cba.iloc[-4250:]
+# df_cba = df_mongo_cba.dropna()
+# df_cba = df_cba.iloc[-4250:]
 df_bhp = pd.read_csv("./static/data/bhp.csv")
 df_bhp = df_bhp.dropna()
 df_bhp = df_bhp.iloc[-4250:]
@@ -36,25 +69,9 @@ df_nab = df_nab.iloc[-4250:]
 df_wbc = pd.read_csv("./static/data/wbc.csv")
 df_wbc = df_wbc.dropna()
 df_wbc = df_wbc.iloc[-4250:]
+
 dates_df = pd.read_csv("./static/data/dates.csv")
 dates_df['Count'] = dates_df['Count'].fillna(0).astype(int)
-close_sixty_val_bhp = df_bhp.iloc[-60:,4].values
-last_sixty_bhp = close_sixty_val_bhp.reshape(-1,1)
-close_sixty_val_cba = df_cba.iloc[-60:,4].values
-last_sixty_cba = close_sixty_val_cba.reshape(-1,1)
-close_sixty_val_csl = df_csl.iloc[-60:,4].values
-last_sixty_csl = close_sixty_val_csl.reshape(-1,1)
-close_sixty_val_nab = df_nab.iloc[-60:,4].values
-last_sixty_nab = close_sixty_val_nab.reshape(-1,1)
-close_sixty_val_wbc = df_wbc.iloc[-60:,4].values
-last_sixty_wbc = close_sixty_val_wbc.reshape(-1,1)
-
-
-# Use PyMongo to establish Mongo connection to the database which is named last
-# mongo = pymongo(app, uri="mongodb://localhost:27017/sharesDB/companys")
-conn = 'mongodb://localhost:27017'
-client = pymongo.MongoClient(conn)
-db = client.sharesDB.companys
 
 # Route to render HOMEPAGE index.html template
 @app.route("/")
