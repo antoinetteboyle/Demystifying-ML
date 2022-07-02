@@ -17,8 +17,17 @@ model_in_cba = load_model('./static/cba_model.sav')
 model_in_csl = load_model('./static/csl_model.sav')
 model_in_nab = load_model('./static/nab_model.sav')
 model_in_wbc = load_model('./static/wbc_model.sav')
-filename = 'finalcba_model_rfr.sav'
-model_in_cba_rfr = pickle.load(open(filename, 'rb'))
+
+filename_cba = './static/cba_model_rfr.sav'
+model_in_cba_rfr = pickle.load(open(filename_cba, 'rb'))
+filename_nab = './static/nab_model_rfr.sav'
+model_in_nab_rfr = pickle.load(open(filename_nab, 'rb'))
+filename_bhp = './static/bhp_model_rfr.sav'
+model_in_bhp_rfr = pickle.load(open(filename_bhp, 'rb'))
+filename_csl = './static/csl_model_rfr.sav'
+model_in_csl_rfr = pickle.load(open(filename_csl, 'rb'))
+filename_wbc = './static/wbc_model_rfr.sav'
+model_in_wbc_rfr = pickle.load(open(filename_wbc, 'rb'))
 
 # Use PyMongo to establish Mongo connection to the database and then the collection
 # mongo = pymongo(app, uri="mongodb://localhost:27017/sharesDB/companys")
@@ -72,6 +81,56 @@ df_wbc = df_wbc.iloc[-4250:]
 
 dates_df = pd.read_csv("./static/data/dates.csv")
 dates_df['Count'] = dates_df['Count'].fillna(0).astype(int)
+
+rfr =[]
+def randomforest(model,rba,fed,cpi,input):
+            for i in range(0,input):
+                rfr.append([rba,fed,cpi])
+                df = pd.DataFrame (rfr, columns = ['RBA','FED',"CPI"])
+                pred_rf=model.predict(df)
+                df['Prediction'] = pred_rf
+                df.round(3)
+                my_rforest = df.to_dict(orient='records')
+                for dict_value in my_rforest:
+                    for k, v in dict_value.items():
+                        dict_value[k] = round(v, 2)
+                rba+=0.01
+                fed+=0.01
+                cpi+=0.01  
+            else:
+                print("Could not predict rfr!")
+                print(input)
+            print(my_rforest)
+            return my_rforest 
+
+def predict(dates_df,last_sixty,model_in,input):
+            price_list=[]
+            for i in range(0, input):
+                #Takes df and converts to model's predict shape
+                last_sixty_scaled = scaler.fit_transform(last_sixty)
+                new_X_tell = []
+                new_X_tell.append(last_sixty_scaled)
+                new_X_tell = np.array(new_X_tell)
+                new_X_tell = np.reshape(new_X_tell, (new_X_tell.shape[0], new_X_tell.shape[1],1))
+                
+                model_in_pd_scale = model_in.predict(new_X_tell)
+                model_in_price = scaler.inverse_transform(model_in_pd_scale) # New price predicted
+
+                last_sixty_less_one = np.delete(last_sixty, 0, 0)
+                last_sixty = np.append(last_sixty_less_one, model_in_price,axis = 0) # Update last 60
+                print(i)
+                print("Day finished! Price: ")
+                price_float = float(model_in_price)
+                price = round(price_float, 2)
+                price_list.append(price)
+               
+            else:
+                print("Could not predict further!")
+                print(input)
+            dates_df_iloc = dates_df.iloc[0:input]
+            dates_df_iloc['Price'] = price_list 
+            my_dict = dates_df_iloc.to_dict(orient='records')
+            return my_dict
 
 # Route to render HOMEPAGE index.html template
 @app.route("/")
@@ -134,124 +193,58 @@ def predict_cba():
         rba = float(rba)
         fed = float(fed)
         cpi = float(cpi)
-        rfr =[]
-        def randomforest(rba,fed,cpi):
-            for i in range(0,input):
-                rfr.append([rba,fed,cpi])
-                df = pd.DataFrame (rfr, columns = ['RBA','FED',"CPI"])
-                pred_rf=model_in_cba_rfr.predict(df)
-                df['Prediction'] = pred_rf
-                df.round(3)
-                my_rforest = df.to_dict(orient='records')
-                for dict_value in my_rforest:
-                    for k, v in dict_value.items():
-                        dict_value[k] = round(v, 2)
-                rba+=0.01
-                fed+=0.01
-                cpi+=0.01  
-            else:
-                print("Could not predict rfr!")
-                print(input)
-            print(my_rforest)
-            return my_rforest        
-        my_rf = randomforest(rba,fed,cpi)
-        print(my_rf)
-        
-        price_list=[]
-        def predict_cba(dates_df,last_sixty_cba,model_in_cba,input):
-            for i in range(0, input):
+        model = model_in_cba_rfr 
+        my_rf = randomforest(model,rba,fed,cpi,input)
 
-                #Takes df and converts to model's predict shape
-                last_sixty_scaled = scaler.fit_transform(last_sixty_cba)
-                new_X_tell = []
-                new_X_tell.append(last_sixty_scaled)
-                new_X_tell = np.array(new_X_tell)
-                new_X_tell = np.reshape(new_X_tell, (new_X_tell.shape[0], new_X_tell.shape[1],1))
-                
-                model_in_pd_scale = model_in_cba.predict(new_X_tell)
-                model_in_price = scaler.inverse_transform(model_in_pd_scale) # New price predicted
-
-                last_sixty_less_one = np.delete(last_sixty_cba, 0, 0)
-                last_sixty_cba = np.append(last_sixty_less_one, model_in_price,axis = 0) # Update last 60
-                print(i)
-                print("Day finished! Price: ")
-                price_float = float(model_in_price)
-                price = round(price_float, 2)
-                price_list.append(price)
-
-            else:
-                print("Could not predict further!")
-                print(input)
-
-        print(price_list)
-        predict_cba(dates_df,last_sixty_cba,model_in_cba,input)
-        dates_df_iloc = dates_df.iloc[0:input]
-        dates_df_iloc['Price'] = price_list
-        my_dict = dates_df_iloc.to_dict(orient='records')
-        print(my_dict)
+        my_dict = predict(dates_df,last_sixty_cba,model_in_cba,input)
         path = '../static/data/images/cba_predict_graph.png'
         path2 = '../static/data/images/cba_tree.png'
         return render_template('cba.html',href=path,dict=my_dict,hreftwo=path2,dtree=my_rf,cba=cba_lstm,rf=cba_rf)
 
 @app.route('/bhp.html', methods=('GET','POST'))
 def predict_bhp():
-    bhp_mongo = db.find_one({'name': 'BHP'})
+    bhp_lstm = db.find_one({'model': 'LSTM','name': 'BHP'})
+    bhp_rf = db.find_one({'model': 'RFR','name': 'BHP'})
     request_type = request.method
     if request_type == 'GET':
         m_dict=[{}]
-        return render_template('bhp.html', href='../static/data/images/bhp_graph.png',dict=m_dict,bhp=bhp_mongo)
+        m_rfr=[{}]
+        path1 = '../static/data/images/bhp_graph.png'
+        path2 = '../static/data/images/bhp_tree.png'
+        return render_template('bhp.html', href=path1,hreftwo=path2,dict=m_dict,dtree=m_rfr,bhp=bhp_lstm,rf=bhp_rf)
     else:
         input = request.form['text']
         if input == "":
          input = 20
         else:
-         input = int(input)
+         input = int(input) 
+
+        rba = request.form['rba']
+        fed = request.form['fed']
+        cpi = request.form['cpi']
+        rba = float(rba)
+        fed = float(fed)
+        cpi = float(cpi)
+        rfr =[]
+        model=model_in_bhp_rfr
+        my_rf = randomforest(model,rba,fed,cpi,input)
         
-        price_list=[]
-        def predict_bhp(dates_df,last_sixty_bhp,model_in_bhp,input):
-            for i in range(0, input):
-
-                #Takes df and converts to model's predict shape
-                last_sixty_scaled = scaler.fit_transform(last_sixty_bhp)
-                new_X_tell = []
-                new_X_tell.append(last_sixty_scaled)
-                new_X_tell = np.array(new_X_tell)
-                new_X_tell = np.reshape(new_X_tell, (new_X_tell.shape[0], new_X_tell.shape[1],1))
-                
-                model_in_pd_scale = model_in_bhp.predict(new_X_tell)
-                model_in_price = scaler.inverse_transform(model_in_pd_scale) # New price predicted
-
-                last_sixty_less_one = np.delete(last_sixty_bhp, 0, 0)
-                last_sixty_bhp = np.append(last_sixty_less_one, model_in_price,axis = 0) # Update last 60
-                print(i)
-                print("Day finished! Price: ")
-                price_float = float(model_in_price)
-                price = round(price_float, 2)
-                price_list.append(price)
-
-            else:
-                print("Could not predict further!")
-                print(input)
-
-        print(price_list)
+        my_dict = predict(dates_df,last_sixty_bhp,model_in_bhp,input)
         path = '../static/data/images/bhp_predict_graph.png'
-        predict_bhp(dates_df,last_sixty_bhp,model_in_bhp,input)
-
-        dates_df_iloc = dates_df.iloc[0:input]
-        dates_df_iloc['Price'] = price_list
-        my_dict = dates_df_iloc.to_dict(orient='records')
-        print(my_dict)
-      
-        return render_template('bhp.html', href=path, dict=my_dict, bhp=bhp_mongo)
-
+        path2 = '../static/data/images/bhp_tree.png'
+        return render_template('bhp.html', href=path, dict=my_dict,hreftwo=path2,dtree=my_rf,bhp=bhp_lstm,rf=bhp_rf)
 
 @app.route('/csl.html', methods=('GET','POST'))
 def predict_csl():
-    csl_mongo = db.find_one({'name': 'CSL'})
+    csl_lstm = db.find_one({'model': 'LSTM','name': 'CSL'})
+    csl_rf = db.find_one({'model': 'RFR','name': 'CSL'})
     request_type = request.method
     if request_type == 'GET':
         m_dict=[{}]
-        return render_template('csl.html', href='../static/data/images/csl_graph.png',dict=m_dict,csl=csl_mongo)
+        m_rfr=[{}]
+        path1 = '../static/data/images/csl_graph.png'
+        path2 = '../static/data/images/csl_tree.png'
+        return render_template('csl.html', href=path1,hreftwo=path2,dict=m_dict,dtree=m_rfr,csl=csl_lstm,rf=csl_rf)
     else:
         input = request.form['text']
         if input == "":
@@ -259,101 +252,68 @@ def predict_csl():
         else:
          input = int(input)
         
-        price_list=[]
-        def predict_csl(dates_df,last_sixty_csl,model_in_csl,input):
-            for i in range(0, input):
-
-                #Takes df and converts to model's predict shape
-                last_sixty_scaled = scaler.fit_transform(last_sixty_csl)
-                new_X_tell = []
-                new_X_tell.append(last_sixty_scaled)
-                new_X_tell = np.array(new_X_tell)
-                new_X_tell = np.reshape(new_X_tell, (new_X_tell.shape[0], new_X_tell.shape[1],1))
-                
-                model_in_pd_scale = model_in_csl.predict(new_X_tell)
-                model_in_price = scaler.inverse_transform(model_in_pd_scale) # New price predicted
-
-                last_sixty_less_one = np.delete(last_sixty_csl, 0, 0)
-                last_sixty_csl = np.append(last_sixty_less_one, model_in_price,axis = 0) # Update last 60
-                print(i)
-                print("Day finished! Price: ")
-                price_float = float(model_in_price)
-                price = round(price_float, 2)
-                price_list.append(price)
-
-            else:
-                print("Could not predict further!")
-                print(input)
-
-        print(price_list)
+        rba = request.form['rba']
+        fed = request.form['fed']
+        cpi = request.form['cpi']
+        rba = float(rba)
+        fed = float(fed)
+        cpi = float(cpi)
+        rfr =[]
+        model=model_in_csl_rfr   
+        my_rf = randomforest(model,rba,fed,cpi,input)
+        
+        my_dict=predict(dates_df,last_sixty_csl,model_in_csl,input)
         path = '../static/data/images/csl_predict_graph.png'
-        predict_csl(dates_df,last_sixty_csl,model_in_csl,input)
-
-        dates_df_iloc = dates_df.iloc[0:input]
-        dates_df_iloc['Price'] = price_list
-        my_dict = dates_df_iloc.to_dict(orient='records')
-        print(my_dict)     
-        return render_template('csl.html', href=path, dict=my_dict,csl=csl_mongo)
+        path2 = '../static/data/images/csl_tree.png'
+        return render_template('csl.html', href=path, dict=my_dict,hreftwo=path2,dtree=my_rf,csl=csl_lstm,rf=csl_rf)
 
 
 @app.route('/nab.html', methods=('GET','POST'))
 def predict_nab():
-    nab_mongo = db.find_one({'name': 'NAB'})
+    nab_lstm = db.find_one({'model': 'LSTM','name': 'NAB'})
+    nab_rf = db.find_one({'model': 'RFR','name': 'NAB'})
     request_type = request.method
     if request_type == 'GET':
         m_dict=[{}]
-        return render_template('nab.html', href='../static/data/images/nab_graph.png',dict=m_dict,nab=nab_mongo)
+        m_rfr=[{}]
+        path1 = '../static/data/images/nab_graph.png'
+        path2 = '../static/data/images/nab_tree.png'
+        return render_template('nab.html', href=path1,hreftwo=path2,dict=m_dict,dtree=m_rfr,nab=nab_lstm,rf=nab_rf)
     else:
         input = request.form['text']
         if input == "":
          input = 20
         else:
          input = int(input)
+
+        rba = request.form['rba']
+        fed = request.form['fed']
+        cpi = request.form['cpi']
+        rba = float(rba)
+        fed = float(fed)
+        cpi = float(cpi)
+        rfr =[]
+        model=model_in_nab_rfr
+        my_rf = randomforest(model,rba,fed,cpi,input)
         
-        price_list=[]
-        def predict_nab(dates_df,last_sixty_nab,model_in_nab,input):
-            for i in range(0, input):
+        my_dict=predict(dates_df,last_sixty_nab,model_in_nab,input)
 
-                #Takes df and converts to model's predict shape
-                last_sixty_scaled = scaler.fit_transform(last_sixty_nab)
-                new_X_tell = []
-                new_X_tell.append(last_sixty_scaled)
-                new_X_tell = np.array(new_X_tell)
-                new_X_tell = np.reshape(new_X_tell, (new_X_tell.shape[0], new_X_tell.shape[1],1))
-                
-                model_in_pd_scale = model_in_nab.predict(new_X_tell)
-                model_in_price = scaler.inverse_transform(model_in_pd_scale) # New price predicted
-
-                last_sixty_less_one = np.delete(last_sixty_nab, 0, 0)
-                last_sixty_nab = np.append(last_sixty_less_one, model_in_price,axis = 0) # Update last 60
-                print(i)
-                print("Day finished! Price: ")
-                price_float = float(model_in_price)
-                price = round(price_float, 2)
-                price_list.append(price)
-
-            else:
-                print("Could not predict further!")
-                print(input)
-
-        print(price_list)
         path = '../static/data/images/nab_predict_graph.png'
-        predict_nab(dates_df,last_sixty_nab,model_in_nab,input)
-
-        dates_df_iloc = dates_df.iloc[0:input]
-        dates_df_iloc['Price'] = price_list
-        my_dict = dates_df_iloc.to_dict(orient='records')
-        print(my_dict)
-        return render_template('nab.html', href=path, dict=my_dict,nab=nab_mongo)
+        path2 = '../static/data/images/nab_tree.png'
+        return render_template('nab.html', href=path, dict=my_dict,hreftwo=path2,dtree=my_rf,nab=nab_lstm,rf=nab_rf)
     
 
 @app.route('/wbc.html', methods=('GET','POST'))
 def predict_wbc():
-    wbc_mongo = db.find_one({'name': 'WBC'})
+    wbc_lstm = db.find_one({'model': 'LSTM','name': 'WBC'})
+    wbc_rf = db.find_one({'model': 'RFR','name': 'WBC'})
     request_type = request.method
     if request_type == 'GET':
         m_dict=[{}]
-        return render_template('wbc.html', href='../static/data/images/wbc_graph.png',dict=m_dict,wbc=wbc_mongo)
+        m_rfr=[{}]
+        path1 = '../static/data/images/wbc_graph.png'
+        path2 = '../static/data/images/wbc_tree.png'
+        return render_template('wbc.html', href=path1,hreftwo=path2,dict=m_dict,dtree=m_rfr,wbc=wbc_lstm,rf=wbc_rf)
     else:
         input = request.form['text']
         if input == "":
@@ -361,41 +321,21 @@ def predict_wbc():
         else:
          input = int(input)
         
-        price_list=[]
-        def predict_wbc(dates_df,last_sixty_wbc,model_in_wbc,input):
-            for i in range(0, input):
+        rba = request.form['rba']
+        fed = request.form['fed']
+        cpi = request.form['cpi']
+        rba = float(rba)
+        fed = float(fed)
+        cpi = float(cpi)
+        rfr =[]
+        model=model_in_wbc_rfr
+        my_rf = randomforest(model,rba,fed,cpi,input)
 
-                #Takes df and converts to model's predict shape
-                last_sixty_scaled = scaler.fit_transform(last_sixty_wbc)
-                new_X_tell = []
-                new_X_tell.append(last_sixty_scaled)
-                new_X_tell = np.array(new_X_tell)
-                new_X_tell = np.reshape(new_X_tell, (new_X_tell.shape[0], new_X_tell.shape[1],1))
-                
-                model_in_pd_scale = model_in_wbc.predict(new_X_tell)
-                model_in_price = scaler.inverse_transform(model_in_pd_scale) # New price predicted
+        my_dict=predict(dates_df,last_sixty_wbc,model_in_wbc,input)
 
-                last_sixty_less_one = np.delete(last_sixty_wbc, 0, 0)
-                last_sixty_wbc = np.append(last_sixty_less_one, model_in_price,axis = 0) # Update last 60
-                print(i)
-                print("Day finished! Price: ")
-                price_float = float(model_in_price)
-                price = round(price_float, 2)
-                price_list.append(price)
-
-            else:
-                print("Could not predict further!")
-                print(input)
-
-        print(price_list)
         path = '../static/data/images/wbc_predict_graph.png'
-        predict_wbc(dates_df,last_sixty_wbc,model_in_wbc,input)
-
-        dates_df_iloc = dates_df.iloc[0:input]
-        dates_df_iloc['Price'] = price_list
-        my_dict = dates_df_iloc.to_dict(orient='records')
-        print(my_dict)
-        return render_template('wbc.html', href=path, dict=my_dict,wbc=wbc_mongo)
+        path2 = '../static/data/images/wbc_tree.png'
+        return render_template('wbc.html', href=path, dict=my_dict,hreftwo=path2,dtree=my_rf,wbc=wbc_lstm,rf=wbc_rf)
    
 
 # # Route that button will trigger the scrape function
