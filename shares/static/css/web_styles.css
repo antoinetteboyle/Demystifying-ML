@@ -55,8 +55,8 @@ h2 {
 
 .navbar-nav .nav-item:hover .nav-link {
     color: #008B8B;
-    font: bold 16px/32px Georgia, serif;
-    background: #cdcdcd; 
+    font: bold 14px/32px  Georgia, serif;
+    /* background: #cdcdcd;  */
 }
 
 @media (max-width: 768px) {

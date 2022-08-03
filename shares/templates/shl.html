@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Machine Learning Challenge- SHL</title>
+  
+   <!-- Bring in bootstrap stylesheet -->
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+   <!-- Bring in our css--->
+   <link rel="stylesheet" href="../static/css/web_styles.css">
+   <link rel="stylesheet" href="../static/css/d3style.css">
+   
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  
+  <!-- CSS only -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <!-- JavaScript Bundle with Popper for dropdown list-->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  <!-- datatables -->
+   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.css">
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">  
+
+    <a class="navbar-brand" style="color: #fefeff" href="/">Home</a>
+    
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+  
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav ml-auto">
+    <li class="nav-item active">   
+    
+        <ul class="nav nav-pills navbar-right">
+
+          <li class="nav-item dropdown">
+            <a class="btn nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+              Financials
+            </a> 
+          
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="./cba.html">CBA</a>
+              <a class="dropdown-item" href="./nab.html">NAB</a>
+              <a class="dropdown-item" href="./wbc.html">Wespac</a>
+              <a class="dropdown-item" href="./anz.html">ANZ</a>
+              <a class="dropdown-item" href="./mqg.html">Macquarie</a>
+            </div>
+          </li>
+        </ul>
+        <li class="nav-item dropdown">
+          <a class="btn nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+            Mining
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="./bhp.html">BHP </a>
+          <a class="dropdown-item" href="./nic.html">NIC </a>
+          <a class="dropdown-item" href="./min.html">MIN </a>
+          <a class="dropdown-item" href="./lyc.html">LYC </a>
+          <a class="dropdown-item" href="./fmg.html">FMG </a>
+          <a class="dropdown-item" href="./ncm.html">NCM </a>
+          <a class="dropdown-item" href="./s32.html">S32 </a>
+        </div>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="btn nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+          Energy
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+        <a class="dropdown-item" href="./wds.html">WDS </a>
+        <a class="dropdown-item" href="./nhc.html">NHC </a>
+        <a class="dropdown-item" href="./sto.html">STO </a>
+      </div>
+    </li>
+ 
+        <li class="nav-item dropdown">
+          <a class="btn nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+            Healthcare
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="./csl.html">CSL </a>
+          <a class="dropdown-item" href="./shl.html">SHL </a> 
+          </div>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="btn nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+            Retail
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="./wes.html">WES </a>
+          <a class="dropdown-item" href="./wow.html">WOW </a> 
+          </div>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="btn nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+            Other
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="./tcl.html">TCL </a>
+          <a class="dropdown-item" href="./gmg.html">GMG </a> 
+          </div>
+        </li>
+        
+    </li>
+    </ul>
+    </div>
+
+  </nav>
+
+  <main>
+
+  <div class="container-fluid">   
+    <div class="row justify-content-between">
+      
+          <h2><a href="#"> <img src="../static/data/images/shlicon.png" class="img-fluid" alt="SHL" width="40" height="40" style="padding: 10 10px 10px 10; float:top;"></a> <b> SHL Group</b></h2>
+          <hr> </hr>
+      
+<div class="col-sm-9">          
+      <p> 
+        Sonic Healthcare Limited offers medical diagnostic services in Australia. The company provides laboratory medicine/pathology; diagnostic imaging/radiology, including magnetic resonance imaging, computed tomography (CT), ultrasound, X-ray, mammography, nuclear medicine, PET CT, interventional procedures, and bone mineral densitometry; and primary care medical services comprising general practice services, occupational health services, remote health services, community and home nursing services, primary care research programs, health assessment technologies, clinical trials, and chronic disease management programs to clinicians, hospitals, community health services, and their patients. It also offers administrative services and facilities to medical practitioners. The company operates in Australia, New Zealand, the United Kingdom, the United States, Germany, Switzerland, Belgium, and Ireland. Sonic Healthcare Limited was incorporated in 1934 and is headquartered in Sydney, Australia.
+      </p>
+
+<center>
+        <img src="{{href}}" alt="href for LSTM pict" class="img-fluid" width="700" height="100";>
+        <p></p>
+
+</div> 
+<div class="col-sm-3">
+  <p></p>
+        <form method= 'POST'>
+        <h2><b>LSTM Machine Learning Model: </b></h2>
+
+         <p> Long Short-Term Memory (LSTM) networks are a type of "recurrent neural network".
+          Predict future daily closing Share Price based on past share price behavior/fluctuations:</p>
+          <p>Last Closing Price: ${{shl.actual}}</p>
+          <b>From: {{shl.date}}</b>
+          <label><strong>Select predictions 1 to 180:</strong></label>
+        <input type="number" name="text" min="1" max="180" value="180" >
+        <input type="submit">
+      
+        <p></p>
+</div>
+</center>
+
+
+        <p><h3><b> RESULTS: </b></h3> </p>
+
+
+<div class="col-sm-8">       
+        {% block content %}
+          <table id="data" class="table table-striped">
+            <thead>
+              <tr>
+                <th>Count</th>
+                <th>Date</th>
+                <th>Day of Week</th>
+                <th>Predicted Price AUD$</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for user in dict %}
+                <tr>
+                  <td>{{ user.Count }}</td>
+                  <td>{{ user.Date }}</td>
+                  <td>{{ user.DOW }}</td>
+                  <td>{{ user.Price }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% endblock %}
+        </p>
+      <p>The root mean square error (RMSE) of this LSTM is {{shl.rmse}}. The closer RMSE to 0, the more favourable</p>
+      <p></p>
+</div>
+<div class="col-sm-4">
+  <img src="{{hrefthree}}" alt="hrefthree LSTM Prediction" class="img-fluid" width="400" height="200";>
+</div>     
+      <hr></hr>
+      <p> </p>
+      <hr></hr>  
+      <p></p>
+<div class="col-sm-9">
+      <img src="{{hreftwo}}" alt="hreftwo for RandomForest" class="img-fluid" width="780" height="600";>
+</div> 
+<div class="col-sm-3"> 
+<center> 
+  <h2><strong>Random Forest Regression Model:</strong></h2>  
+
+      <p> Predict a Closing Share Price based on cash interest rates and CPI:</p>
+      <b> Select start point:</b>
+      <input type="number" step="any" name="rba" min="0" max="10" value="1.35" >
+      <label> RBA max 10:</label>
+      <input type="number" step="any" name="fed" min="0" max="10" value="1.75" >
+      <label> FED max 10:</label>
+      <input type="number" step="any" name="cpi" min="120" max="200" value="123.90">
+      <label> CPI max 200:</label>
+      <input type="submit">
+
+  </form>
+</center> 
+</div> 
+      <p></p>
+      <p><h3><b> RESULTS: </b></p></h3></p>
+   
+      <p>Closing Share Price prediction and impact of increasing RBA, FED cash rate by 0.01 point and CPI by 1 from start:</b></p>
+    
+    <div>
+      <ul style="list-style: none;">
+      
+        <!-- Loop through the dictionary -->
+
+        <table id="data" class="table table-striped">
+          <thead>
+            <tr>
+              <th>RBA</th>
+              <th>FED</th>
+              <th>CPI</th>
+              <th>Expected Closing Price AUD$</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for tree in dtree %}
+              <tr>
+                <td>{{ tree.RBA }}</td>
+                <td>{{ tree.FED }}</td>
+                <td>{{ tree.CPI }}</td>
+                <td>{{ tree.Prediction }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+      </ul>
+    </div>
+<p>Accuracy for this Random Forest Regressor is: {{rf.accuracy}}%. 100% being perfect accuracy.</p>
+</center>
+
+<div>
+</div>
+
+      <!-- </div>
+      <div class="col-sm-1">
+      </div>
+  
+      <div class="col-sm-3">
+        
+          <h2><strong>Companies</strong></h2>
+          <hr> </hr>
+          <a href="./bhp.html"> <img src="../static/data/images/bhp.png" class="img-fluid" alt="BHP Group" width="300" height="300" style="padding: 0 1px 1px 0; float:left;"></a>
+          <a href="./cba.html"> <img src="../static/data/images/cba.png" class="img-fluid" alt="Commonwealth Bank" width="300" height="300" style="padding: 0 1px 1px 0; float:left;"></a>
+          <a href="./csl.html"> <img src="../static/data/images/csl.png" class="img-fluid" alt="CSL" width="300" height="300" style="padding: 0 1px 1px 0; float:left;"></a>
+          <a href="./nab.html"> <img src="../static/data/images/nab.png" class="img-fluid" alt="NAB" width="300" height="300" style="padding: 0 1px 1px 0; float:left;"></a>
+          <a href="./wbc.html"> <img src="../static/data/images/wbc.png" class="img-fluid" alt="Westpac" width="300" height="300" style="padding: 0 1px 1px 0; float:left;"></a>
+        </div> -->
+
+          <p>
+            {% block scripts %}
+              <script>
+                $(document).ready(function () {
+                 $('#data').DataTable();
+                });
+              </script>
+            {% endblock %}
+          </p>
+        
+   
+    
+    </div>
+
+  </div>
+  
+</main>
+<!-- Datatables -->
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
+</body>
+
+</html>
