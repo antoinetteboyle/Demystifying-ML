@@ -9,7 +9,7 @@ An interactive website that performs machine learning to predict the future shar
 To run this application from Visual Studio Code navigate to the shares folder and type "python app.py"
 
 20 years data in CSV format:
-[Yahoo Finance Share Price Information](shares/static/data)
+[Yahoo Finance Share Price Information](./shares/static/data)
 Jupyter Notebook workings:
 [Machine learning models](./shares/ipynb_model_workings)
 Websites HTML templates and CSS for Homepage (Index) and each company

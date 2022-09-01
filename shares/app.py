@@ -6,6 +6,10 @@ import pandas as pd
 import numpy as np
 import json
 import pickle
+from datetime import date,datetime
+todaydt = date.today()
+today=todaydt.strftime('%d/%m/%Y')
+today
 
 # Create an instance of Flask
 app = Flask(__name__)
@@ -33,6 +37,9 @@ model_in_ncm = load_model('./static/ncm_model.sav')
 model_in_sto = load_model('./static/sto_model.sav')
 model_in_s32 = load_model('./static/s32_model.sav')
 model_in_anz = load_model('./static/anz_model.sav')
+model_in_all = load_model('./static/all_model.sav')
+model_in_sol = load_model('./static/sol_model.sav')
+model_in_pru = load_model('./static/pru_model.sav')
 
 filename_cba = './static/cba_model_rfr.sav'
 model_in_cba_rfr = pickle.load(open(filename_cba, 'rb'))
@@ -76,6 +83,12 @@ filename_s32 = './static/s32_model_rfr.sav'
 model_in_s32_rfr = pickle.load(open(filename_s32, 'rb'))
 filename_anz = './static/anz_model_rfr.sav'
 model_in_anz_rfr = pickle.load(open(filename_anz, 'rb'))
+filename_all = './static/all_model_rfr.sav'
+model_in_all_rfr = pickle.load(open(filename_all, 'rb'))
+filename_sol = './static/sol_model_rfr.sav'
+model_in_sol_rfr = pickle.load(open(filename_sol, 'rb'))
+filename_pru = './static/pru_model_rfr.sav'
+model_in_pru_rfr = pickle.load(open(filename_pru, 'rb'))
 
 # Use PyMongo to establish Mongo connection to the database and then the collection
 # mongo = pymongo(app, uri="mongodb://localhost:27017/sharesDB/companys")
@@ -104,6 +117,9 @@ db_ncm = client.sharesDB.ncm # connect to specific collection
 db_sto = client.sharesDB.sto # connect to specific collection
 db_s32 = client.sharesDB.s32 # connect to specific collection
 db_anz = client.sharesDB.anz # connect to specific collection
+db_all = client.sharesDB.all # connect to specific collection
+db_sol = client.sharesDB.sol # connect to specific collection
+db_pru = client.sharesDB.pru # connect to specific collection
 
 db_dates = client.sharesDB.dates # connect to specific collection
 db_scrape = client.sharesDB.scrape # connect to specific collection
@@ -192,6 +208,18 @@ last_sixty_s32 = sixty_val_s32.reshape(-1,1)
 df_mongo_anz = pd.DataFrame(list(db_anz.find()))
 sixty_val_anz = df_mongo_anz.iloc[-60:,4].values
 last_sixty_anz = sixty_val_anz.reshape(-1,1)
+
+df_mongo_all = pd.DataFrame(list(db_all.find()))
+sixty_val_all = df_mongo_all.iloc[-60:,4].values
+last_sixty_all = sixty_val_all.reshape(-1,1)
+
+df_mongo_sol = pd.DataFrame(list(db_sol.find()))
+sixty_val_sol = df_mongo_sol.iloc[-60:,4].values
+last_sixty_sol = sixty_val_sol.reshape(-1,1)
+
+df_mongo_pru = pd.DataFrame(list(db_pru.find()))
+sixty_val_pru = df_mongo_pru.iloc[-60:,4].values
+last_sixty_pru = sixty_val_pru.reshape(-1,1)
 
 # dates_df = pd.read_csv("./static/data/dates.csv")
 
@@ -315,6 +343,12 @@ def home():
     s32_rf = db.find_one({'model': 'RFR','name': 'S32'})
     anz_lstm = db.find_one({'model': 'LSTM','name': 'ANZ'})
     anz_rf = db.find_one({'model': 'RFR','name': 'ANZ'})
+    all_lstm = db.find_one({'model': 'LSTM','name': 'ALL'})
+    all_rf = db.find_one({'model': 'RFR','name': 'ALL'})
+    sol_lstm = db.find_one({'model': 'LSTM','name': 'SOL'})
+    sol_rf = db.find_one({'model': 'RFR','name': 'SOL'})
+    pru_lstm = db.find_one({'model': 'LSTM','name': 'PRU'})
+    pru_rf = db.find_one({'model': 'RFR','name': 'PRU'})
 
     return render_template("index.html",cba_lstm=cba_lstm,cba_rf=cba_rf,
     bhp_lstm=bhp_lstm,bhp_rf=bhp_rf,
@@ -336,7 +370,10 @@ def home():
     ncm_lstm=ncm_lstm,ncm_rf=ncm_rf,
     sto_lstm=sto_lstm,sto_rf=sto_rf,
     s32_lstm=s32_lstm,s32_rf=s32_rf,
-    anz_lstm=anz_lstm,anz_rf=anz_rf)
+    anz_lstm=anz_lstm,anz_rf=anz_rf,
+    all_lstm=all_lstm,all_rf=all_rf,
+    sol_lstm=sol_lstm,sol_rf=sol_rf,
+    pru_lstm=pru_lstm,pru_rf=pru_rf)
 
 @app.route("/cba_data")
 def cba_data():
@@ -405,7 +442,7 @@ def predict_cba():
 
 @app.route('/bhp.html', methods=('GET','POST'))
 def predict_bhp():
-    bhp_lstm = db.find_one({'model': 'LSTM','name': 'BHP'})
+    bhp_lstm = db.find_one({'model': 'LSTM','name': 'BHP','date':today})
     bhp_rf = db.find_one({'model': 'RFR','name': 'BHP'})
     request_type = request.method
     if request_type == 'GET':
@@ -1105,7 +1142,113 @@ def predict_anz():
         path2 = '../static/data/images/anz_tree.png'
         path3 = '../static/data/images/pred/anz_pred.png'
         return render_template('anz.html', href=path, dict=my_dict,hreftwo=path2,hrefthree=path3,dtree=my_rf,anz=anz_lstm,rf=anz_rf)
-     
+
+@app.route('/all.html', methods=('GET','POST'))
+def predict_all():
+    all_lstm = db.find_one({'model': 'LSTM','name': 'ALL'})
+    all_rf = db.find_one({'model': 'RFR','name': 'ALL'})
+    request_type = request.method
+    if request_type == 'GET':
+        m_dict=[{}]
+        m_rfr=[{}]
+        path1 = '../static/data/images/all_graph.png'
+        path2 = '../static/data/images/all_tree.png'
+        path3 = '../static/data/images/all.png'
+        return render_template('all.html', href=path1,hreftwo=path2,hrefthree=path3,dict=m_dict,dtree=m_rfr,all=all_lstm,rf=all_rf)
+    else:
+        input = request.form['text']
+        if input == "":
+         input = 180
+        else:
+         input = int(input)
+        
+        rba = request.form['rba']
+        fed = request.form['fed']
+        cpi = request.form['cpi']
+        rba = float(rba)
+        fed = float(fed)
+        cpi = float(cpi)
+        model=model_in_all_rfr
+        my_rf = randomforest(model,rba,fed,cpi)
+
+        my_dict=predict(dates_df,last_sixty_all,model_in_all,input)
+
+        path = '../static/data/images/all_predict_graph.png'
+        path2 = '../static/data/images/all_tree.png'
+        path3 = '../static/data/images/pred/all_pred.png'
+        return render_template('all.html', href=path, dict=my_dict,hreftwo=path2,hrefthree=path3,dtree=my_rf,all=all_lstm,rf=all_rf)
+
+@app.route('/sol.html', methods=('GET','POST'))
+def predict_sol():
+    sol_lstm = db.find_one({'model': 'LSTM','name': 'SOL'})
+    sol_rf = db.find_one({'model': 'RFR','name': 'SOL'})
+    request_type = request.method
+    if request_type == 'GET':
+        m_dict=[{}]
+        m_rfr=[{}]
+        path1 = '../static/data/images/sol_graph.png'
+        path2 = '../static/data/images/sol_tree.png'
+        path3 = '../static/data/images/sol.png'
+        return render_template('sol.html', href=path1,hreftwo=path2,hrefthree=path3,dict=m_dict,dtree=m_rfr,sol=sol_lstm,rf=sol_rf)
+    else:
+        input = request.form['text']
+        if input == "":
+         input = 180
+        else:
+         input = int(input)
+        
+        rba = request.form['rba']
+        fed = request.form['fed']
+        cpi = request.form['cpi']
+        rba = float(rba)
+        fed = float(fed)
+        cpi = float(cpi)
+        model=model_in_sol_rfr
+        my_rf = randomforest(model,rba,fed,cpi)
+
+        my_dict=predict(dates_df,last_sixty_sol,model_in_sol,input)
+
+        path = '../static/data/images/sol_predict_graph.png'
+        path2 = '../static/data/images/sol_tree.png'
+        path3 = '../static/data/images/pred/sol_pred.png'
+        return render_template('sol.html', href=path, dict=my_dict,hreftwo=path2,hrefthree=path3,dtree=my_rf,sol=sol_lstm,rf=sol_rf)
+    
+@app.route('/pru.html', methods=('GET','POST'))
+def predict_pru():
+    pru_lstm = db.find_one({'model': 'LSTM','name': 'PRU'})
+    pru_rf = db.find_one({'model': 'RFR','name': 'PRU'})
+    request_type = request.method
+    if request_type == 'GET':
+        m_dict=[{}]
+        m_rfr=[{}]
+        path1 = '../static/data/images/pru_graph.png'
+        path2 = '../static/data/images/pru_tree.png'
+        path3 = '../static/data/images/pru.png'
+        return render_template('pru.html', href=path1,hreftwo=path2,hrefthree=path3,dict=m_dict,dtree=m_rfr,pru=pru_lstm,rf=pru_rf)
+    else:
+        input = request.form['text']
+        if input == "":
+         input = 180
+        else:
+         input = int(input)
+        
+        rba = request.form['rba']
+        fed = request.form['fed']
+        cpi = request.form['cpi']
+        rba = float(rba)
+        fed = float(fed)
+        cpi = float(cpi)
+        model=model_in_pru_rfr
+        my_rf = randomforest(model,rba,fed,cpi)
+
+        my_dict=predict(dates_df,last_sixty_pru,model_in_pru,input)
+
+        path = '../static/data/images/pru_predict_graph.png'
+        path2 = '../static/data/images/pru_tree.png'
+        path3 = '../static/data/images/pred/pru_pred.png'
+        return render_template('pru.html', href=path, dict=my_dict,hreftwo=path2,hrefthree=path3,dtree=my_rf,pru=pru_lstm,rf=pru_rf)
+
+
 # # Route that button will trigger the scrape function
 # @app.route("/scrape")
 

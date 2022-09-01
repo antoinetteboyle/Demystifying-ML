@@ -66,6 +66,7 @@
             <a class="dropdown-item" href="./lyc.html">LYC </a>
             <a class="dropdown-item" href="./fmg.html">FMG </a>
             <a class="dropdown-item" href="./ncm.html">NCM </a>
+            <a class="dropdown-item" href="./pru.html">PRU </a>
             <a class="dropdown-item" href="./s32.html">S32 </a>
           </div>
         </li>
@@ -77,6 +78,7 @@
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="./wds.html">WDS </a>
           <a class="dropdown-item" href="./nhc.html">NHC </a>
+          <a class="dropdown-item" href="./sol.html">SOL </a>
           <a class="dropdown-item" href="./sto.html">STO </a>
         </div>
       </li>
@@ -107,7 +109,8 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" href="./tcl.html">TCL </a>
-            <a class="dropdown-item" href="./gmg.html">GMG </a> 
+            <a class="dropdown-item" href="./gmg.html">GMG </a>
+            <a class="dropdown-item" href="./all.html">ALL </a> 
             </div>
           </li>
           
@@ -148,53 +151,58 @@
           <hr> </hr>
           <p>  Predict the future Share Price of an ASX company by clicking top right menu. Summary of the Two machine learning models:</p> 
           <p><b>  - Long Short-Term Memory (LSTM) networks- A type of "recurrent neural network".  Predict future daily closing Share Price based on past share price behavior/fluctuations:</b></p>
-          <p><b>{{cba_lstm.name}}:</b> Date: {{cba_lstm.date}} Latest Price: ${{cba_lstm.actual}} Predicted Price ${{cba_lstm.predicted}} Difference {{cba_lstm.difference}} RMSE: {{cba_lstm.rmse}} </p>
+          <p><b>{{all_lstm.name}}:</b> Date: {{all_lstm.date}} Latest Price: ${{all_lstm.actual}} Predicted Price ${{all_lstm.predicted}} Difference {{all_lstm.difference}} RMSE: {{all_lstm.rmse}} </p>
+          <p><b>{{anz_lstm.name}}:</b> Date: {{anz_lstm.date}} Latest Price: ${{anz_lstm.actual}} Predicted Price ${{anz_lstm.predicted}} Difference {{anz_lstm.difference}} RMSE: {{anz_lstm.rmse}} </p>
           <p><b>{{bhp_lstm.name}}:</b> Date: {{bhp_lstm.date}} Latest Price: ${{bhp_lstm.actual}} Predicted Price ${{bhp_lstm.predicted}} Difference {{bhp_lstm.difference}} RMSE: {{bhp_lstm.rmse}} </p>
-          <p><b>{{nab_lstm.name}}:</b> Date: {{nab_lstm.date}} Latest Price: ${{nab_lstm.actual}} Predicted Price ${{nab_lstm.predicted}} Difference {{nab_lstm.difference}} RMSE: {{nab_lstm.rmse}} </p>
-          <p><b>{{wbc_lstm.name}}:</b> Date: {{wbc_lstm.date}} Latest Price: ${{wbc_lstm.actual}} Predicted Price ${{wbc_lstm.predicted}} Difference {{wbc_lstm.difference}} RMSE: {{wbc_lstm.rmse}} </p>
+          <p><b>{{cba_lstm.name}}:</b> Date: {{cba_lstm.date}} Latest Price: ${{cba_lstm.actual}} Predicted Price ${{cba_lstm.predicted}} Difference {{cba_lstm.difference}} RMSE: {{cba_lstm.rmse}} </p>
           <p><b>{{csl_lstm.name}}:</b> Date: {{csl_lstm.date}} Latest Price: ${{csl_lstm.actual}} Predicted Price ${{csl_lstm.predicted}} Difference {{csl_lstm.difference}} RMSE: {{csl_lstm.rmse}} </p>
+          <p><b>{{fmg_lstm.name}}:</b> Date: {{fmg_lstm.date}} Latest Price: ${{fmg_lstm.actual}} Predicted Price ${{fmg_lstm.predicted}} Difference {{fmg_lstm.difference}} RMSE: {{fmg_lstm.rmse}} </p>
+          <p><b>{{gmg_lstm.name}}:</b> Date: {{gmg_lstm.date}} Latest Price: ${{gmg_lstm.actual}} Predicted Price ${{gmg_lstm.predicted}} Difference {{gmg_lstm.difference}} RMSE: {{gmg_lstm.rmse}} </p>
           <p><b>{{lyc_lstm.name}}:</b> Date: {{lyc_lstm.date}} Latest Price: ${{lyc_lstm.actual}} Predicted Price ${{lyc_lstm.predicted}} Difference {{lyc_lstm.difference}} RMSE: {{lyc_lstm.rmse}} </p>
           <p><b>{{min_lstm.name}}:</b> Date: {{min_lstm.date}} Latest Price: ${{min_lstm.actual}} Predicted Price ${{min_lstm.predicted}} Difference {{min_lstm.difference}} RMSE: {{min_lstm.rmse}} </p>
           <p><b>{{mqg_lstm.name}}:</b> Date: {{mqg_lstm.date}} Latest Price: ${{mqg_lstm.actual}} Predicted Price ${{mqg_lstm.predicted}} Difference {{mqg_lstm.difference}} RMSE: {{mqg_lstm.rmse}} </p>
           <p><b>{{nab_lstm.name}}:</b> Date: {{nab_lstm.date}} Latest Price: ${{nab_lstm.actual}} Predicted Price ${{nab_lstm.predicted}} Difference {{nab_lstm.difference}} RMSE: {{nab_lstm.rmse}} </p>
+          <p><b>{{ncm_lstm.name}}:</b> Date: {{ncm_lstm.date}} Latest Price: ${{ncm_lstm.actual}} Predicted Price ${{ncm_lstm.predicted}} Difference {{ncm_lstm.difference}} RMSE: {{ncm_lstm.rmse}} </p>
           <p><b>{{nhc_lstm.name}}:</b> Date: {{nhc_lstm.date}} Latest Price: ${{nhc_lstm.actual}} Predicted Price ${{nhc_lstm.predicted}} Difference {{nhc_lstm.difference}} RMSE: {{nhc_lstm.rmse}} </p>
-          <p><b>{{shl_lstm.name}}:</b> Date: {{shl_lstm.date}} Latest Price: ${{shl_lstm.actual}} Predicted Price ${{shl_lstm.predicted}} Difference {{shl_lstm.difference}} RMSE: {{shl_lstm.rmse}} </p>
-          <p><b>{{fmg_lstm.name}}:</b> Date: {{fmg_lstm.date}} Latest Price: ${{fmg_lstm.actual}} Predicted Price ${{fmg_lstm.predicted}} Difference {{fmg_lstm.difference}} RMSE: {{fmg_lstm.rmse}} </p>
+          <p><b>{{nic_lstm.name}}:</b> Date: {{nic_lstm.date}} Latest Price: ${{nic_lstm.actual}} Predicted Price ${{nic_lstm.predicted}} Difference {{nic_lstm.difference}} RMSE: {{nic_lstm.rmse}} </p>
+          <p><b>{{pru_lstm.name}}:</b> Date: {{pru_lstm.date}} Latest Price: ${{pru_lstm.actual}} Predicted Price ${{pru_lstm.predicted}} Difference {{anz_lstm.difference}} RMSE: {{anz_lstm.rmse}} </p>
+          <p><b>{{s32_lstm.name}}:</b> Date: {{s32_lstm.date}} Latest Price: ${{s32_lstm.actual}} Predicted Price ${{s32_lstm.predicted}} Difference {{s32_lstm.difference}} RMSE: {{s32_lstm.rmse}} </p>
+          <p><b>{{shl_lstm.name}}:</b> Date: {{shl_lstm.date}} Latest Price: ${{shl_lstm.actual}} Predicted Price ${{shl_lstm.predicted}} Difference {{shl_lstm.difference}} RMSE: {{shl_lstm.rmse}} </p> 
+          <p><b>{{sol_lstm.name}}:</b> Date: {{sol_lstm.date}} Latest Price: ${{sol_lstm.actual}} Predicted Price ${{sol_lstm.predicted}} Difference {{sol_lstm.difference}} RMSE: {{sol_lstm.rmse}} </p>
+          <p><b>{{sto_lstm.name}}:</b> Date: {{sto_lstm.date}} Latest Price: ${{sto_lstm.actual}} Predicted Price ${{sto_lstm.predicted}} Difference {{sto_lstm.difference}} RMSE: {{sto_lstm.rmse}} </p>
+          <p><b>{{tcl_lstm.name}}:</b> Date: {{tcl_lstm.date}} Latest Price: ${{tcl_lstm.actual}} Predicted Price ${{tcl_lstm.predicted}} Difference {{tcl_lstm.difference}} RMSE: {{tcl_lstm.rmse}} </p>   
+          <p><b>{{wbc_lstm.name}}:</b> Date: {{wbc_lstm.date}} Latest Price: ${{wbc_lstm.actual}} Predicted Price ${{wbc_lstm.predicted}} Difference {{wbc_lstm.difference}} RMSE: {{wbc_lstm.rmse}} </p>
           <p><b>{{wds_lstm.name}}:</b> Date: {{wds_lstm.date}} Latest Price: ${{wds_lstm.actual}} Predicted Price ${{wds_lstm.predicted}} Difference {{wds_lstm.difference}} RMSE: {{wds_lstm.rmse}} </p>
           <p><b>{{wes_lstm.name}}:</b> Date: {{wes_lstm.date}} Latest Price: ${{wes_lstm.actual}} Predicted Price ${{wes_lstm.predicted}} Difference {{wes_lstm.difference}} RMSE: {{wes_lstm.rmse}} </p>
           <p><b>{{wow_lstm.name}}:</b> Date: {{wow_lstm.date}} Latest Price: ${{wow_lstm.actual}} Predicted Price ${{wow_lstm.predicted}} Difference {{wow_lstm.difference}} RMSE: {{wow_lstm.rmse}} </p>
-          <p><b>{{tcl_lstm.name}}:</b> Date: {{tcl_lstm.date}} Latest Price: ${{tcl_lstm.actual}} Predicted Price ${{tcl_lstm.predicted}} Difference {{tcl_lstm.difference}} RMSE: {{tcl_lstm.rmse}} </p>
-          <p><b>{{gmg_lstm.name}}:</b> Date: {{gmg_lstm.date}} Latest Price: ${{gmg_lstm.actual}} Predicted Price ${{gmg_lstm.predicted}} Difference {{gmg_lstm.difference}} RMSE: {{gmg_lstm.rmse}} </p>
-          <p><b>{{ncm_lstm.name}}:</b> Date: {{ncm_lstm.date}} Latest Price: ${{ncm_lstm.actual}} Predicted Price ${{ncm_lstm.predicted}} Difference {{ncm_lstm.difference}} RMSE: {{ncm_lstm.rmse}} </p>
-          <p><b>{{sto_lstm.name}}:</b> Date: {{sto_lstm.date}} Latest Price: ${{sto_lstm.actual}} Predicted Price ${{sto_lstm.predicted}} Difference {{sto_lstm.difference}} RMSE: {{sto_lstm.rmse}} </p>
-          <p><b>{{s32_lstm.name}}:</b> Date: {{s32_lstm.date}} Latest Price: ${{s32_lstm.actual}} Predicted Price ${{s32_lstm.predicted}} Difference {{s32_lstm.difference}} RMSE: {{s32_lstm.rmse}} </p>
-          <p><b>{{anz_lstm.name}}:</b> Date: {{anz_lstm.date}} Latest Price: ${{anz_lstm.actual}} Predicted Price ${{anz_lstm.predicted}} Difference {{anz_lstm.difference}} RMSE: {{anz_lstm.rmse}} </p>
-
-
+          
 
           <p><b>   - Random Forest Regression Machine Learning- Predict a Closing Share Price based on a selected CPI and RBA and FED cash interest rate:</b></p>
-          <p><b> {{cba_rf.name}}:</b> Date: {{cba_rf.date}} Latest Price: ${{cba_rf.actual}} Predicted Price ${{cba_rf.predicted}} Difference {{cba_rf.difference}} Accuracy: {{cba_rf.accuracy}}%</p>
+          <p><b> {{all_rf.name}}:</b> Date: {{all_rf.date}} Latest Price: ${{all_rf.actual}} Predicted Price ${{all_rf.predicted}} Difference {{all_rf.difference}} Accuracy: {{all_rf.accuracy}}%</p>
+          <p><b> {{anz_rf.name}}:</b> Date: {{anz_rf.date}} Latest Price: ${{anz_rf.actual}} Predicted Price ${{anz_rf.predicted}} Difference {{anz_rf.difference}} Accuracy: {{anz_rf.accuracy}}%</p>
           <p><b> {{bhp_rf.name}}:</b> Date: {{bhp_rf.date}} Latest Price: ${{bhp_rf.actual}} Predicted Price ${{bhp_rf.predicted}} Difference {{bhp_rf.difference}} Accuracy: {{bhp_rf.accuracy}}%</p>
-          <p><b> {{nab_rf.name}}:</b> Date: {{nab_rf.date}} Latest Price: ${{nab_rf.actual}} Predicted Price ${{nab_rf.predicted}} Difference {{nab_rf.difference}} Accuracy: {{nab_rf.accuracy}}%</p> 
-          <p><b> {{wbc_rf.name}}:</b> Date: {{wbc_rf.date}} Latest Price: ${{wbc_rf.actual}} Predicted Price ${{wbc_rf.predicted}} Difference {{wbc_rf.difference}} Accuracy: {{wbc_rf.accuracy}}%</p> 
+          <p><b> {{cba_rf.name}}:</b> Date: {{cba_rf.date}} Latest Price: ${{cba_rf.actual}} Predicted Price ${{cba_rf.predicted}} Difference {{cba_rf.difference}} Accuracy: {{cba_rf.accuracy}}%</p>  
           <p><b> {{csl_rf.name}}:</b> Date: {{csl_rf.date}} Latest Price: ${{csl_rf.actual}} Predicted Price ${{csl_rf.predicted}} Difference {{csl_rf.difference}} Accuracy: {{csl_rf.accuracy}}%</p> 
+          <p><b> {{fmg_rf.name}}:</b> Date: {{fmg_rf.date}} Latest Price: ${{fmg_rf.actual}} Predicted Price ${{fmg_rf.predicted}} Difference {{fmg_rf.difference}} Accuracy: {{fmg_rf.accuracy}}%</p>
+          <p><b> {{gmg_rf.name}}:</b> Date: {{gmg_rf.date}} Latest Price: ${{gmg_rf.actual}} Predicted Price ${{gmg_rf.predicted}} Difference {{gmg_rf.difference}} Accuracy: {{gmg_rf.accuracy}}%</p>
           <p><b> {{lyc_rf.name}}:</b> Date: {{lyc_rf.date}} Latest Price: ${{lyc_rf.actual}} Predicted Price ${{lyc_rf.predicted}} Difference {{lyc_rf.difference}} Accuracy: {{lyc_rf.accuracy}}%</p>
           <p><b> {{min_rf.name}}:</b> Date: {{min_rf.date}} Latest Price: ${{min_rf.actual}} Predicted Price ${{min_rf.predicted}} Difference {{min_rf.difference}} Accuracy: {{min_rf.accuracy}}%</p>
           <p><b> {{mqg_rf.name}}:</b> Date: {{mqg_rf.date}} Latest Price: ${{mqg_rf.actual}} Predicted Price ${{mqg_rf.predicted}} Difference {{mqg_rf.difference}} Accuracy: {{mqg_rf.accuracy}}%</p>
           <p><b> {{nab_rf.name}}:</b> Date: {{nab_rf.date}} Latest Price: ${{nab_rf.actual}} Predicted Price ${{nab_rf.predicted}} Difference {{nab_rf.difference}} Accuracy: {{nab_rf.accuracy}}%</p>
-          <p><b> {{nhc_rf.name}}:</b> Date: {{nhc_rf.date}} Latest Price: ${{nhc_rf.actual}} Predicted Price ${{nhc_rf.predicted}} Difference {{nhc_rf.difference}} Accuracy: {{nhc_rf.accuracy}}%</p>
+          <p><b> {{ncm_rf.name}}:</b> Date: {{ncm_rf.date}} Latest Price: ${{ncm_rf.actual}} Predicted Price ${{ncm_rf.predicted}} Difference {{ncm_rf.difference}} Accuracy: {{ncm_rf.accuracy}}%</p>
+          <p><b> {{nhc_rf.name}}:</b> Date: {{nhc_rf.date}} Latest Price: ${{nhc_rf.actual}} Predicted Price ${{nhc_rf.predicted}} Difference {{nhc_rf.difference}} Accuracy: {{nhc_rf.accuracy}}%</p>       
+          <p><b> {{nic_rf.name}}:</b> Date: {{nic_rf.date}} Latest Price: ${{nic_rf.actual}} Predicted Price ${{nic_rf.predicted}} Difference {{nic_rf.difference}} Accuracy: {{nic_rf.accuracy}}%</p>  
+          <p><b> {{pru_rf.name}}:</b> Date: {{pru_rf.date}} Latest Price: ${{pru_rf.actual}} Predicted Price ${{pru_rf.predicted}} Difference {{pru_rf.difference}} Accuracy: {{pru_rf.accuracy}}%</p>
+          <p><b> {{s32_rf.name}}:</b> Date: {{s32_rf.date}} Latest Price: ${{s32_rf.actual}} Predicted Price ${{s32_rf.predicted}} Difference {{s32_rf.difference}} Accuracy: {{s32_rf.accuracy}}%</p>
           <p><b> {{shl_rf.name}}:</b> Date: {{shl_rf.date}} Latest Price: ${{shl_rf.actual}} Predicted Price ${{shl_rf.predicted}} Difference {{shl_rf.difference}} Accuracy: {{shl_rf.accuracy}}%</p> 
-          <p><b> {{fmg_rf.name}}:</b> Date: {{fmg_rf.date}} Latest Price: ${{fmg_rf.actual}} Predicted Price ${{fmg_rf.predicted}} Difference {{fmg_rf.difference}} Accuracy: {{fmg_rf.accuracy}}%</p>
+          <p><b> {{sol_rf.name}}:</b> Date: {{sol_rf.date}} Latest Price: ${{sol_rf.actual}} Predicted Price ${{sol_rf.predicted}} Difference {{sol_rf.difference}} Accuracy: {{sol_rf.accuracy}}%</p>
+          <p><b> {{sto_rf.name}}:</b> Date: {{sto_rf.date}} Latest Price: ${{sto_rf.actual}} Predicted Price ${{sto_rf.predicted}} Difference {{sto_rf.difference}} Accuracy: {{sto_rf.accuracy}}%</p>
+          <p><b> {{tcl_rf.name}}:</b> Date: {{tcl_rf.date}} Latest Price: ${{tcl_rf.actual}} Predicted Price ${{tcl_rf.predicted}} Difference {{tcl_rf.difference}} Accuracy: {{tcl_rf.accuracy}}%</p>
+          <p><b> {{wbc_rf.name}}:</b> Date: {{wbc_rf.date}} Latest Price: ${{wbc_rf.actual}} Predicted Price ${{wbc_rf.predicted}} Difference {{wbc_rf.difference}} Accuracy: {{wbc_rf.accuracy}}%</p> 
           <p><b> {{wds_rf.name}}:</b> Date: {{wds_rf.date}} Latest Price: ${{wds_rf.actual}} Predicted Price ${{wds_rf.predicted}} Difference {{wds_rf.difference}} Accuracy: {{wds_rf.accuracy}}%</p>
           <p><b> {{wes_rf.name}}:</b> Date: {{wes_rf.date}} Latest Price: ${{wes_rf.actual}} Predicted Price ${{wes_rf.predicted}} Difference {{wes_rf.difference}} Accuracy: {{wes_rf.accuracy}}%</p>
           <p><b> {{wow_rf.name}}:</b> Date: {{wow_rf.date}} Latest Price: ${{wow_rf.actual}} Predicted Price ${{wow_rf.predicted}} Difference {{wow_rf.difference}} Accuracy: {{wow_rf.accuracy}}%</p>
-          <p><b> {{tcl_rf.name}}:</b> Date: {{tcl_rf.date}} Latest Price: ${{tcl_rf.actual}} Predicted Price ${{tcl_rf.predicted}} Difference {{tcl_rf.difference}} Accuracy: {{tcl_rf.accuracy}}%</p>
-          <p><b> {{gmg_rf.name}}:</b> Date: {{gmg_rf.date}} Latest Price: ${{gmg_rf.actual}} Predicted Price ${{gmg_rf.predicted}} Difference {{gmg_rf.difference}} Accuracy: {{gmg_rf.accuracy}}%</p>
-          <p><b> {{ncm_rf.name}}:</b> Date: {{ncm_rf.date}} Latest Price: ${{ncm_rf.actual}} Predicted Price ${{ncm_rf.predicted}} Difference {{ncm_rf.difference}} Accuracy: {{ncm_rf.accuracy}}%</p>
-          <p><b> {{sto_rf.name}}:</b> Date: {{sto_rf.date}} Latest Price: ${{sto_rf.actual}} Predicted Price ${{sto_rf.predicted}} Difference {{sto_rf.difference}} Accuracy: {{sto_rf.accuracy}}%</p>
-          <p><b> {{s32_rf.name}}:</b> Date: {{s32_rf.date}} Latest Price: ${{s32_rf.actual}} Predicted Price ${{s32_rf.predicted}} Difference {{s32_rf.difference}} Accuracy: {{s32_rf.accuracy}}%</p>
-          <p><b> {{anz_rf.name}}:</b> Date: {{anz_rf.date}} Latest Price: ${{anz_rf.actual}} Predicted Price ${{anz_rf.predicted}} Difference {{anz_rf.difference}} Accuracy: {{anz_rf.accuracy}}%</p>
-
+        
           <!-- <a href="./bhp.html"> <img src="../static/data/images/bhp.png" class="img-fluid" alt="BHP Group" width="240" height="240" style="padding: 0 1px 1px 0; float:left;"></a>
           <a href="./cba.html"> <img src="../static/data/images/cba.png" class="img-fluid" alt="Commonwealth Bank" width="240" height="200" style="padding: 0 1px 1px 0; float:left;"></a>
           <a href="./csl.html"> <img src="../static/data/images/csl.png" class="img-fluid" alt="CSL" width="240" height="240" style="padding: 0 1px 1px 0; float:left;"></a>
